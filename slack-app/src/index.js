@@ -7,8 +7,10 @@
 //      application/x-www-form-urlencoded. We dispatch on the presence of a
 //      `command` field in the parsed form.
 //
-//   2. Events API      (app_home_opened, url_verification) — content-type
-//      application/json. We dispatch on the JSON `type` field.
+//   2. Events API      (app_home_opened, reaction_added, reaction_removed,
+//      url_verification) — content-type application/json. We dispatch on the
+//      JSON `type` field. Reacting with :dusty_stick: on a message awards a
+//      dusty stick; removing the reaction revokes it.
 //
 // Both are distinguished by content-type / payload shape, so a single request
 // URL works for everything. (You may point both the slash-command URL and the
@@ -18,7 +20,12 @@
 // against the Slack signing secret before we do anything else.
 
 import { verifySlackRequest } from "./verify.js";
-import { insertAward, getLeaderboard, getRecent } from "./db.js";
+import {
+  insertAward,
+  deleteReactionAward,
+  getLeaderboard,
+  getRecent,
+} from "./db.js";
 import {
   escapeSlackText,
   relativeTime,
@@ -85,6 +92,7 @@ async function handleSlashCommand(form, env) {
   const text = (form.text || "").trim();
   const giverId = form.user_id || "";
   const giverName = form.user_name || "someone";
+  const channelId = form.channel_id || null;
 
   // First whitespace-delimited word is the subcommand (case-insensitive).
   const firstWord = text.split(/\s+/)[0]?.toLowerCase() || "";
@@ -104,7 +112,7 @@ async function handleSlashCommand(form, env) {
 
     default:
       // Anything else is treated as an award: "<@receiver> <reason>".
-      return await giveAwardResponse(text, giverId, giverName, env);
+      return await giveAwardResponse(text, giverId, giverName, channelId, env);
   }
 }
 
@@ -114,7 +122,7 @@ async function handleSlashCommand(form, env) {
  * (Slack sends the escaped mention token when "Escape channels, users, and
  * links" is enabled on the slash command.)
  */
-async function giveAwardResponse(text, giverId, giverName, env) {
+async function giveAwardResponse(text, giverId, giverName, channelId, env) {
   const mention = parseUserMention(text);
 
   if (!mention) {
@@ -133,6 +141,9 @@ async function giveAwardResponse(text, giverId, giverName, env) {
     receiverId: mention.id,
     receiverName: mention.name,
     reason,
+    source: "command",
+    channelId,
+    messageTs: null,
   });
 
   const giver = mentionOrName(giverId, giverName);
@@ -248,20 +259,144 @@ async function handleEvent(payload, env, ctx) {
 
   if (payload.type === "event_callback" && payload.event) {
     const event = payload.event;
+
     if (event.type === "app_home_opened") {
       // Publish the Home tab. Do it in the background so we can ACK Slack
       // immediately (Slack expects a 200 within 3 seconds).
-      const work = publishHome(event.user, env);
-      if (ctx && typeof ctx.waitUntil === "function") {
-        ctx.waitUntil(work);
-      } else {
-        await work;
-      }
+      await runInBackground(ctx, publishHome(event.user, env));
+    } else if (event.type === "reaction_added") {
+      await runInBackground(ctx, handleReactionAdded(event, env));
+    } else if (event.type === "reaction_removed") {
+      await runInBackground(ctx, handleReactionRemoved(event, env));
     }
   }
 
   // Always 200 quickly for events.
   return new Response("", { status: 200 });
+}
+
+/**
+ * Run background work after ACKing Slack. Prefers ctx.waitUntil so the 200 is
+ * sent immediately (Slack expects a reply within 3 seconds); falls back to
+ * awaiting when no execution context is available (e.g. tests).
+ */
+async function runInBackground(ctx, work) {
+  if (ctx && typeof ctx.waitUntil === "function") {
+    ctx.waitUntil(work);
+    return;
+  }
+  // No execution context (e.g. local dev / tests) — await so the work finishes.
+  await work;
+}
+
+// ---------------------------------------------------------------------------
+// Reaction awards
+// ---------------------------------------------------------------------------
+
+// The custom emoji whose reaction grants a dusty stick.
+const REACTION_EMOJI = "dusty_stick";
+
+/**
+ * Someone reacted with :dusty_stick:. Log an award where the giver is the
+ * reactor and the receiver is the author of the reacted-to message.
+ */
+export async function handleReactionAdded(event, env) {
+  if (!isDustyStickMessageReaction(event)) return;
+
+  const giverId = event.user;
+  const receiverId = event.item_user;
+
+  // No receiver (item_user can be absent, e.g. some bot/app messages) — skip.
+  if (!receiverId) return;
+
+  // Can't award yourself.
+  if (giverId === receiverId) return;
+
+  const channelId = event.item.channel;
+  const messageTs = event.item.ts;
+  const reason = await buildReactionReason(channelId, messageTs, env);
+
+  await insertAward(env.DB, {
+    giverId,
+    giverName: giverId,
+    receiverId,
+    receiverName: receiverId,
+    reason,
+    source: "reaction",
+    channelId,
+    messageTs,
+  });
+}
+
+/**
+ * Someone removed their :dusty_stick: reaction. Revoke the matching award.
+ * Slack allows only one reaction of a given emoji per user per message, so the
+ * (source, giver, receiver, channel, ts) tuple uniquely identifies the row.
+ */
+export async function handleReactionRemoved(event, env) {
+  if (!isDustyStickMessageReaction(event)) return;
+
+  const giverId = event.user;
+  const receiverId = event.item_user;
+  if (!receiverId) return;
+  if (giverId === receiverId) return;
+
+  await deleteReactionAward(env.DB, {
+    giverId,
+    receiverId,
+    channelId: event.item.channel,
+    messageTs: event.item.ts,
+  });
+}
+
+/** True only for a :dusty_stick: reaction on a message (not a file, etc.). */
+function isDustyStickMessageReaction(event) {
+  return (
+    event.reaction === REACTION_EMOJI &&
+    event.item &&
+    event.item.type === "message"
+  );
+}
+
+/**
+ * Build the stored reason for a reaction award. Best-effort: try to link to the
+ * reacted-to message via chat.getPermalink; fall back to a plain reason if the
+ * lookup fails so a permalink error never blocks award logging.
+ */
+async function buildReactionReason(channelId, messageTs, env) {
+  const permalink = await getPermalink(channelId, messageTs, env);
+  if (permalink) {
+    return `Reacted with :dusty_stick: on <${permalink}|a message>`;
+  }
+  return "Reacted with :dusty_stick:";
+}
+
+/**
+ * Fetch a permalink to a message via chat.getPermalink. Returns the URL string
+ * or null on any failure (the bot must be in the channel; no extra scope
+ * needed). Never throws.
+ */
+async function getPermalink(channelId, messageTs, env) {
+  try {
+    const url =
+      "https://slack.com/api/chat.getPermalink?" +
+      new URLSearchParams({ channel: channelId, message_ts: messageTs });
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${env.SLACK_BOT_TOKEN}` },
+    });
+    const data = await res.json().catch(() => ({}));
+    if (data.ok && data.permalink) {
+      return data.permalink;
+    }
+    console.error("chat.getPermalink failed:", JSON.stringify(data));
+    return null;
+  } catch (err) {
+    console.error(
+      "chat.getPermalink error:",
+      err && err.stack ? err.stack : err
+    );
+    return null;
+  }
 }
 
 /** Build and publish the App Home view for a given user. */

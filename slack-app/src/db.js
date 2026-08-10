@@ -2,14 +2,67 @@
 // All queries use prepared statements with bound parameters (no string
 // interpolation) so user input can never alter the SQL.
 
-/** Insert a new award. Returns nothing meaningful; throws on failure. */
-export async function insertAward(db, { giverId, giverName, receiverId, receiverName, reason }) {
+/**
+ * Insert a new award. Returns nothing meaningful; throws on failure.
+ *
+ * `source` is 'command' (a /dustystick slash command) or 'reaction' (someone
+ * reacted with :dusty_stick:). `channelId` and `messageTs` are stored for
+ * reaction awards so the row can be matched again if the reaction is removed;
+ * for slash commands `messageTs` is typically null.
+ */
+export async function insertAward(
+  db,
+  {
+    giverId,
+    giverName,
+    receiverId,
+    receiverName,
+    reason,
+    source = "command",
+    channelId = null,
+    messageTs = null,
+  }
+) {
   await db
     .prepare(
-      `INSERT INTO awards (giver_id, giver_name, receiver_id, receiver_name, reason, created_at)
-       VALUES (?, ?, ?, ?, ?, ?)`
+      `INSERT INTO awards
+         (giver_id, giver_name, receiver_id, receiver_name, reason, source, channel_id, message_ts, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
     )
-    .bind(giverId, giverName, receiverId, receiverName, reason, Date.now())
+    .bind(
+      giverId,
+      giverName,
+      receiverId,
+      receiverName,
+      reason,
+      source,
+      channelId,
+      messageTs,
+      Date.now()
+    )
+    .run();
+}
+
+/**
+ * Delete the reaction award matching a removed :dusty_stick: reaction.
+ * Slack allows only one reaction of a given emoji per user per message, so
+ * (source='reaction', giver, receiver, channel, message_ts) uniquely
+ * identifies the row logged when the reaction was added.
+ */
+export async function deleteReactionAward(
+  db,
+  { giverId, receiverId, channelId, messageTs }
+) {
+  await db
+    .prepare(
+      `DELETE FROM awards
+        WHERE source = 'reaction'
+          AND giver_id = ?
+          AND receiver_id = ?
+          AND channel_id = ?
+          AND message_ts = ?`
+    )
+    .bind(giverId, receiverId, channelId, messageTs)
     .run();
 }
 

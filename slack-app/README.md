@@ -15,6 +15,10 @@ database server, no build step beyond Wrangler.
 - **`/dustystick leaderboard`** (also `board` / `top`) — standings by awards received.
 - **`/dustystick recent`** — the last 10 awards.
 - **`/dustystick help`** (or empty/unknown) — usage help.
+- **`:dusty_stick:` reaction** — reacting with the custom `:dusty_stick:` emoji on any
+  message awards a dusty stick to the message's author (the reactor is the giver). Each
+  reacted-to message counts as a separate award (they stack). Removing the reaction
+  revokes that award. You can't award yourself (a reaction on your own message is ignored).
 - **App Home tab** — shows the leaderboard plus a short "how to use" section, refreshed
   each time someone opens the app's Home tab.
 
@@ -23,14 +27,18 @@ database server, no build step beyond Wrangler.
 - One Worker URL handles everything. Slack sends:
   - **Slash commands** as `application/x-www-form-urlencoded` POSTs → dispatched when a
     `command` field is present.
-  - **Events API** callbacks (`url_verification`, `app_home_opened`) as
-    `application/json` POSTs → dispatched on the JSON `type` field.
+  - **Events API** callbacks (`url_verification`, `app_home_opened`,
+    `reaction_added`, `reaction_removed`) as `application/json` POSTs → dispatched on the
+    JSON `type` field.
   So both the **slash command Request URL** and the **Events Request URL** point at the
   *same* deployed Worker URL (the root `/`).
 - **Signature verification** runs on every request: HMAC-SHA256 over
   `v0:{timestamp}:{raw_body}` using `SLACK_SIGNING_SECRET`, constant-time compared to
-  `X-Slack-Signature`, rejecting timestamps older than 5 minutes (401 on failure).
+  `X-Slack-Signature`, rejecting timestamps older than 5 minutes (401 on failure). This
+  applies to the reaction events too.
 - The App Home is published with `views.publish` using the bot token.
+- Reaction events are ACKed with a 200 immediately; the D1 write and the
+  `chat.getPermalink` lookup (used to build the award's reason) run in `ctx.waitUntil`.
 
 ---
 
@@ -57,6 +65,18 @@ Copy the `database_id` it prints and paste it into `wrangler.toml`, replacing
 ```bash
 npm run db:init        # wrangler d1 execute dusty-stick --file=./schema.sql --remote
 ```
+
+> **Upgrading an existing database?** If you created the D1 database *before* reaction
+> support was added, its `awards` table is missing the `source`, `channel_id`, and
+> `message_ts` columns. Run the one-time migration instead of re-running `db:init`:
+>
+> ```bash
+> npm run db:migrate   # wrangler d1 execute dusty-stick --file=./migrations/0001_add_reaction_support.sql --remote
+> ```
+>
+> SQLite's `ALTER TABLE ADD COLUMN` has no `IF NOT EXISTS`, so run the migration only
+> once — on an already-migrated DB it errors with "duplicate column name", which is safe
+> to ignore. Fresh installs get everything from `db:init` and should *not* run it.
 
 ### 3. Create the Slack app
 
@@ -93,11 +113,14 @@ oauth_config:
       - commands
       - chat:write
       - users:read
+      - reactions:read
 settings:
   event_subscriptions:
     request_url: https://YOUR-WORKER-URL.workers.dev/
     bot_events:
       - app_home_opened
+      - reaction_added
+      - reaction_removed
   org_deploy_enabled: false
   socket_mode_enabled: false
   token_rotation_enabled: false
@@ -106,7 +129,12 @@ settings:
 **Request URLs:** both the slash command `url` and the Events `request_url` point to the
 Worker's root URL. The Worker distinguishes them by content-type / payload shape.
 
-**Required bot scopes:** `commands`, `chat:write`, `users:read`.
+**Required bot scopes:** `commands`, `chat:write`, `users:read`, `reactions:read`.
+(`reactions:read` lets the app subscribe to `reaction_added` / `reaction_removed`.
+`chat.getPermalink` — used to link the reacted-to message in the award's reason — needs
+no extra scope beyond the bot being a member of the channel; if the bot isn't in the
+channel the permalink lookup just fails and the reason falls back to a plain
+`Reacted with :dusty_stick:`.)
 
 > `should_escape: true` is the manifest equivalent of the Slack UI checkbox
 > **"Escape channels, users, and links"** on the slash command. It is required so that
@@ -139,13 +167,21 @@ Wrangler prints your Worker URL (e.g. `https://dusty-stick.<subdomain>.workers.d
 2. Confirm **"Escape channels, users, and links"** is enabled on the slash command
    (`should_escape: true`).
 3. **Reinstall the app to the workspace** so the scopes/events take effect. A workspace
-   **admin** performs the install.
+   **admin** performs the install. Adding the `reactions:read` scope and the
+   `reaction_added` / `reaction_removed` event subscriptions (as in the manifest above)
+   requires this reinstall — without it the reaction feature won't fire.
+4. Make sure the custom emoji **`:dusty_stick:`** exists in the workspace (Slack →
+   emoji settings → add a custom emoji named `dusty_stick`). The reaction feature keys on
+   that exact name.
 
 ### 6. Test
 
 - `/dustystick @someone crushed the deadline` → in-channel award announcement.
 - `/dustystick leaderboard` → standings.
 - `/dustystick recent` → recent awards.
+- React with `:dusty_stick:` on someone else's message → award logged (invite the bot to
+  the channel so it can read the reaction and resolve the permalink). Remove the reaction
+  → award revoked. Reacting on your own message does nothing.
 - Open the app's **Home** tab → leaderboard + how-to.
 
 ---
@@ -165,19 +201,29 @@ to a staging Worker.
 ```
 slack-app/
 ├── README.md
-├── package.json        # scripts: dev, deploy, db:init
+├── package.json        # scripts: test, dev, deploy, db:init, db:migrate
 ├── wrangler.toml       # Worker config + D1 binding (DB)
-├── schema.sql          # CREATE TABLE awards + indexes
+├── schema.sql          # CREATE TABLE awards + indexes (fresh installs)
+├── migrations/
+│   └── 0001_add_reaction_support.sql  # ALTER TABLE for DBs created pre-reactions
+├── test/
+│   └── reactions.test.js               # functional test for reaction add/remove
 └── src/
-    ├── index.js        # entry point: routing, slash commands, events, App Home
+    ├── index.js        # entry point: routing, slash commands, events, reactions, App Home
     ├── verify.js       # Slack request signature verification (HMAC-SHA256)
-    ├── db.js           # D1 queries (insert / leaderboard / recent)
+    ├── db.js           # D1 queries (insert / delete reaction / leaderboard / recent)
     └── format.js       # escaping, relative time, Block Kit builders
 ```
 
 ## Notes / caveats
 
-- The invoking user is always the **giver**; the mentioned user is the **receiver**.
+- For slash commands the invoking user is always the **giver**; the mentioned user is the
+  **receiver**. For reactions the **reactor** is the giver and the **message author** is
+  the receiver. Awards store a `source` of `command` or `reaction`.
+- A `:dusty_stick:` reaction and its removal are matched by
+  (`source`, `giver_id`, `receiver_id`, `channel_id`, `message_ts`). Slack permits only
+  one reaction of a given emoji per user per message, so that tuple uniquely identifies
+  the row to delete on `reaction_removed`.
 - Responses stay well within Slack's 3-second window — D1 queries are simple and
   synchronous. The only background work is `views.publish` for the App Home, which is
   fired via `ctx.waitUntil` after Slack is ACKed.
