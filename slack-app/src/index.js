@@ -131,7 +131,7 @@ async function giveAwardResponse(text, giverId, giverName, channelId, env) {
   const mention = parseUserMention(text);
 
   if (!mention) {
-    return jsonResponse(usageResponse("You need to mention who earned it."));
+    return jsonResponse(usageResponse("You need to mention who's earned an L."));
   }
 
   // The reason is everything after the mention token.
@@ -161,7 +161,7 @@ async function giveAwardResponse(text, giverId, giverName, channelId, env) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: `:dusty_stick:🏆 *Dusty Stick Award!* 🏆:dusty_stick:\n${giver} just handed a dusty stick to ${receiver}.`,
+          text: `:dusty_stick: *Dusty Stick awarded* :dusty_stick:\n${giver} just dusted ${receiver}. Oof — you played yourself.`,
         },
       },
       {
@@ -170,7 +170,7 @@ async function giveAwardResponse(text, giverId, giverName, channelId, env) {
       },
     ],
     // Fallback text for notifications / clients that don't render blocks.
-    text: `:dusty_stick:🏆 ${giverName} gave a Dusty Stick Award to ${mention.name}: "${reason}"`,
+    text: `:dusty_stick: ${giverName} handed ${mention.name} a Dusty Stick: "${reason}" — oof.`,
   });
 }
 
@@ -179,7 +179,7 @@ async function leaderboardResponse(env) {
   return jsonResponse({
     response_type: "in_channel",
     blocks: leaderboardBlocks(rows),
-    text: ":dusty_stick:🏆 Dusty Stick Leaderboard",
+    text: ":dusty_stick: Dusty Stick Hall of Shame",
   });
 }
 
@@ -189,7 +189,7 @@ async function recentResponse(env) {
   if (rows.length === 0) {
     return jsonResponse({
       response_type: "ephemeral",
-      text: "No dusty sticks awarded yet. Give one with `/dustystick @someone <reason>` :dusty_stick:",
+      text: "No dustings yet. Nobody's earned an L… so far. Hand one out with `/dustystick @someone <reason>` :dusty_stick:",
     });
   }
 
@@ -207,11 +207,11 @@ async function recentResponse(env) {
         // Custom emoji don't render reliably in a plain_text header, so the
         // :dusty_stick: appears in the mrkdwn lines below instead.
         type: "header",
-        text: { type: "plain_text", text: "Recent Dusty Sticks", emoji: true },
+        text: { type: "plain_text", text: "Recent Dustings", emoji: true },
       },
       { type: "section", text: { type: "mrkdwn", text: lines.join("\n") } },
     ],
-    text: "Recent Dusty Sticks",
+    text: "Recent Dustings",
   });
 }
 
@@ -266,18 +266,18 @@ function helpResponse() {
         // :dusty_stick: kept out of the plain_text header (renders literally
         // there); it leads the mrkdwn section below where it renders correctly.
         type: "header",
-        text: { type: "plain_text", text: "🏆 Dusty Stick Awards", emoji: true },
+        text: { type: "plain_text", text: "Dusty Stick Awards", emoji: true },
       },
       {
         type: "section",
         text: {
           type: "mrkdwn",
           text: [
-            ":dusty_stick: Give and track dusty sticks around the team.",
+            ":dusty_stick: The team's booby prize — hand someone a Dusty Stick when they earn an L.",
             "",
-            "• `/dustystick @person <reason>` — award a dusty stick",
-            "• `/dustystick leaderboard` — see who's collected the most",
-            "• `/dustystick recent` — the last 10 awards",
+            "• `/dustystick @person <reason>` — give someone a dusty stick",
+            "• `/dustystick leaderboard` — the hall of shame (who's collected the most)",
+            "• `/dustystick recent` — the last 10 dustings",
             "• `/dustystick joinall` — add the bot to all public channels",
             "• `/dustystick help` — show this message",
             "",
@@ -297,7 +297,7 @@ function usageResponse(problem) {
       problem ? `⚠️ ${problem}` : "⚠️ That didn't look right.",
       "",
       "*Usage:* `/dustystick @person <reason>`",
-      "_Example:_ `/dustystick @jane crushed the Q3 deadline`",
+      "_Example:_ `/dustystick @jane replied-all to the whole company`",
     ].join("\n"),
   };
 }
@@ -598,11 +598,16 @@ async function publishHome(userId, env) {
       // :dusty_stick: stays out of the plain_text header (renders literally
       // there); it shows in the mrkdwn context line and how-to section below.
       type: "header",
-      text: { type: "plain_text", text: "🏆 Dusty Stick Awards", emoji: true },
+      text: { type: "plain_text", text: "Dusty Stick Awards", emoji: true },
     },
     {
       type: "context",
-      elements: [{ type: "mrkdwn", text: ":dusty_stick: Dusty Stick Awards" }],
+      elements: [
+        {
+          type: "mrkdwn",
+          text: ":dusty_stick: The team's booby prize — a dubious honor for anyone who earns an L",
+        },
+      ],
     },
     ...leaderboardBlocks(rows, { header: false }),
     { type: "divider" },
@@ -612,9 +617,9 @@ async function publishHome(userId, env) {
         type: "mrkdwn",
         text: [
           "*How to use*",
-          "• `/dustystick @person <reason>` — award a dusty stick :dusty_stick:",
-          "• `/dustystick leaderboard` — full standings",
-          "• `/dustystick recent` — the latest awards",
+          "• `/dustystick @person <reason>` — give someone a Dusty Stick when they earn an L :dusty_stick:",
+          "• `/dustystick leaderboard` — the full hall of shame",
+          "• `/dustystick recent` — the latest dustings",
         ].join("\n"),
       },
     },

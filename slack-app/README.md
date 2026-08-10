@@ -1,6 +1,10 @@
-# Dusty Stick Awards — Slack App 🌵🏆
+# Dusty Stick Awards — Slack App
 
-A Slack app for the Red Egg Marketing team to give and track **Dusty Stick Awards**.
+A Slack app for the Red Egg Marketing team to give and track **Dusty Stick Awards** — a
+tongue-in-cheek *negative* award, a Razzie-style dishonor. A Dusty Stick is the team's
+booby prize: you get one for a goof, a fail, an L, or a facepalm moment. It's all
+good-natured ribbing, and the leaderboard is a **hall of shame** where the person on top
+has collected the *most* dusty sticks, not the fewest.
 It runs as a [Cloudflare Worker](https://developers.cloudflare.com/workers/) backed by
 [Cloudflare D1](https://developers.cloudflare.com/d1/) (serverless SQLite). No external
 database server, no build step beyond Wrangler.
@@ -10,10 +14,11 @@ database server, no build step beyond Wrangler.
 
 ## What it does
 
-- **`/dustystick @person <reason>`** — award a dusty stick. Posts a playful in-channel
-  announcement with giver, receiver, and reason.
-- **`/dustystick leaderboard`** (also `board` / `top`) — standings by awards received.
-- **`/dustystick recent`** — the last 10 awards.
+- **`/dustystick @person <reason>`** — hand someone a dusty stick when they earn an L.
+  Posts a playful, mock-commiseration in-channel announcement with giver, receiver, and reason.
+- **`/dustystick leaderboard`** (also `board` / `top`) — the **hall of shame**, ranked by
+  dusty sticks collected (top = biggest offender).
+- **`/dustystick recent`** — the last 10 dustings.
 - **`/dustystick help`** (or empty/unknown) — usage help.
 - **`:dusty_stick:` reaction** — reacting with the custom `:dusty_stick:` emoji on any
   message awards a dusty stick to the message's author (the reactor is the giver). Each
@@ -101,7 +106,7 @@ after deploying).
 ```yaml
 display_information:
   name: Dusty Stick Awards
-  description: Give and track Dusty Stick Awards 🌵🏆
+  description: The team's booby prize — hand out and track Dusty Stick Awards :dusty_stick:
   background_color: "#8a6d3b"
 features:
   bot_user:
@@ -113,7 +118,7 @@ features:
   slash_commands:
     - command: /dustystick
       url: https://YOUR-WORKER-URL.workers.dev/
-      description: Give or track Dusty Stick Awards
+      description: Hand out or track Dusty Stick Awards (the team booby prize)
       usage_hint: "@person <reason>  |  leaderboard  |  recent  |  help"
       # IMPORTANT: this must be true so Slack sends <@U123|name> mention tokens.
       should_escape: true
@@ -256,11 +261,11 @@ slack-app/
   synchronous. Background work fired via `ctx.waitUntil` after Slack is ACKed: `views.publish`
   for the App Home, the `joinall` channel enumeration/join loop, and the `channel_created`
   auto-join.
-- The bot's messages, leaderboard, "recent" list, and App Home use the custom
-  `:dusty_stick:` emoji shortcode. It's placed in `mrkdwn` section/context lines (where
-  Slack renders custom emoji reliably) rather than in `header` blocks (plain_text, where a
-  custom emoji can show as literal `:dusty_stick:` text); the trophy 🏆 and rank badges
-  (👑/🥈/🥉) stay in the headers.
+- The bot's messages, leaderboard (the hall of shame), "recent" list, and App Home use the
+  custom `:dusty_stick:` emoji shortcode. It's placed in `mrkdwn` section/context lines
+  (where Slack renders custom emoji reliably) rather than in `header` blocks (plain_text,
+  where a custom emoji can show as literal `:dusty_stick:` text). Headers stay plain text;
+  the dubious-distinction rank badges (🚩/💀/🤡) live in the `mrkdwn` leaderboard lines.
 - `joinall` is available to anyone (checking Slack admin status would need extra scopes),
   but it's safe: joins are idempotent, a `ratelimited` join is skipped without aborting the
   loop, and it only *adds* the bot to public channels.

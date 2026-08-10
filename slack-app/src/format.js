@@ -32,15 +32,19 @@ export function relativeTime(fromMs, nowMs = Date.now()) {
   return `${yr} year${yr === 1 ? "" : "s"} ago`;
 }
 
-/** Medal/crown emoji for a 0-based leaderboard rank; number otherwise. */
+/**
+ * Dubious-distinction badge for a 0-based leaderboard rank; number otherwise.
+ * This is a hall of shame — #1 is the biggest offender, not a champion — so the
+ * badges read as tongue-in-cheek dishonors rather than victory medals.
+ */
 export function rankBadge(index) {
   switch (index) {
     case 0:
-      return "👑";
+      return "🚩";
     case 1:
-      return "🥈";
+      return "💀";
     case 2:
-      return "🥉";
+      return "🤡";
     default:
       return `${index + 1}.`;
   }
@@ -55,16 +59,21 @@ export function leaderboardBlocks(rows, { header = true } = {}) {
 
   if (header) {
     // NOTE: custom emoji (:dusty_stick:) don't reliably render in a plain_text
-    // header block — they can show as literal text — so the header keeps the
-    // trophy only, and the :dusty_stick: shows in the mrkdwn count/empty lines
-    // below (and in this context line) where custom emoji render correctly.
+    // header block — they can show as literal text — so the header stays plain,
+    // and the :dusty_stick: shows in the mrkdwn count/empty lines below (and in
+    // this context line) where custom emoji render correctly.
     blocks.push({
       type: "header",
-      text: { type: "plain_text", text: "🏆 Dusty Stick Leaderboard", emoji: true },
+      text: { type: "plain_text", text: "Dusty Stick Hall of Shame", emoji: true },
     });
     blocks.push({
       type: "context",
-      elements: [{ type: "mrkdwn", text: ":dusty_stick: Most dusty sticks earned" }],
+      elements: [
+        {
+          type: "mrkdwn",
+          text: ":dusty_stick: Most dusty sticks collected — wear them with shame",
+        },
+      ],
     });
   }
 
@@ -73,7 +82,7 @@ export function leaderboardBlocks(rows, { header = true } = {}) {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: "No dusty sticks awarded yet. Be the first — `/dustystick @someone <reason>` :dusty_stick:",
+        text: "No dusty sticks handed out yet. Nobody's messed up… yet. `/dustystick @someone <reason>` :dusty_stick:",
       },
     });
     return blocks;
