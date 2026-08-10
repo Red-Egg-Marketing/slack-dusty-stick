@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🏆 Dusty Stick Awards</title>
+<style>
+  :root {
+    --bg: #f4efe6;
+    --bg-accent: #e9dec8;
+    --card: #fffdf8;
+    --ink: #33291c;
+    --ink-soft: #6b5d47;
+    --line: #e2d6bd;
+    --dust: #c9a253;
+    --dust-deep: #a67c2e;
+    --stick: #8b5a2b;
+    --gold: #d4af37;
+    --danger: #b23b3b;
+    --shadow: 0 2px 4px rgba(80, 60, 20, .08), 0 8px 24px rgba(80, 60, 20, .10);
+    --radius: 16px;
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font);
+    color: var(--ink);
+    background:
+      radial-gradient(1200px 400px at 50% -100px, var(--bg-accent), transparent 70%),
+      var(--bg);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  .wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 18px 64px;
+  }
+
+  header.hero {
+    text-align: center;
+    padding: 28px 16px 12px;
+  }
+  header.hero h1 {
+    font-size: clamp(1.9rem, 5vw, 2.9rem);
+    margin: 0 0 6px;
+    letter-spacing: -0.5px;
+  }
+  header.hero p {
+    margin: 0 auto;
+    max-width: 560px;
+    color: var(--ink-soft);
+    font-size: 1.02rem;
+  }
+  .brand-badge {
+    display: inline-block;
+    margin-bottom: 8px;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--dust-deep);
+    background: var(--bg-accent);
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    margin: 18px 0;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    margin: 0 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  h2 .hint { font-size: .8rem; font-weight: 400; color: var(--ink-soft); margin-left: auto; }
+
+  /* --- Form --- */
+  form .fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  form .field.full { grid-column: 1 / -1; }
+  label {
+    display: block;
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+  input[type="text"], textarea {
+    width: 100%;
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--ink);
+    background: #fff;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    padding: 10px 12px;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  input[type="text"]:focus, textarea:focus {
+    outline: none;
+    border-color: var(--dust);
+    box-shadow: 0 0 0 3px rgba(201, 162, 83, .2);
+  }
+  textarea { resize: vertical; min-height: 62px; }
+
+  .btn {
+    font-family: inherit;
+    font-size: .95rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 18px;
+    transition: transform .05s, filter .15s, background .15s;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary {
+    background: linear-gradient(180deg, var(--dust) 0%, var(--dust-deep) 100%);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(166, 124, 46, .35);
+  }
+  .btn-primary:hover { filter: brightness(1.05); }
+  .btn-ghost {
+    background: var(--bg-accent);
+    color: var(--ink);
+  }
+  .btn-ghost:hover { filter: brightness(.97); }
+  .btn-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 14px; }
+
+  .form-error {
+    color: var(--danger);
+    font-size: .88rem;
+    font-weight: 600;
+    min-height: 1.2em;
+    margin-top: 4px;
+  }
+
+  /* --- Leaderboard --- */
+  .leaderboard.card { border-top: 4px solid var(--gold); }
+  ol.board { list-style: none; margin: 0; padding: 0; }
+  ol.board li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 10px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+  }
+  ol.board li + li { margin-top: 4px; }
+  ol.board li:nth-child(odd) { background: #faf6ec; }
+  .rank {
+    flex: 0 0 auto;
+    width: 42px; height: 42px;
+    display: grid; place-items: center;
+    font-weight: 800;
+    font-size: 1.05rem;
+    border-radius: 50%;
+    background: var(--bg-accent);
+    color: var(--ink-soft);
+  }
+  li.top1 { background: linear-gradient(180deg,#fff9e6,#fdf0c9) !important; border-color:#f0dca0; }
+  li.top1 .rank { background: var(--gold); color:#5a4300; }
+  li.top2 .rank { background:#d8d8d8; color:#4a4a4a; }
+  li.top3 .rank { background:#e3b98f; color:#5a3818; }
+  .board-name { flex: 1 1 auto; font-weight: 600; font-size: 1.08rem; word-break: break-word; }
+  .board-count {
+    flex: 0 0 auto;
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--dust-deep);
+    display:flex; align-items:center; gap:6px;
+  }
+  .board-count .sticks { font-size: .95rem; letter-spacing: -2px; }
+
+  /* --- Feed --- */
+  ul.feed { list-style: none; margin: 0; padding: 0; }
+  ul.feed li {
+    padding: 14px 4px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  ul.feed li:last-child { border-bottom: none; }
+  .feed-icon { font-size: 1.4rem; line-height: 1.4; flex: 0 0 auto; }
+  .feed-body { flex: 1 1 auto; min-width: 0; }
+  .feed-head { font-weight: 600; }
+  .feed-head .giver { color: var(--ink); }
+  .feed-head .arrow { color: var(--dust-deep); margin: 0 6px; }
+  .feed-head .receiver { color: var(--stick); }
+  .feed-reason { color: var(--ink-soft); font-style: italic; margin: 2px 0; word-break: break-word; }
+  .feed-reason::before { content: "\201C"; }
+  .feed-reason::after { content: "\201D"; }
+  .feed-time { font-size: .8rem; color: var(--ink-soft); }
+  .feed-del {
+    flex: 0 0 auto;
+    background: none; border: none; cursor: pointer;
+    color: var(--ink-soft); font-size: 1.1rem; line-height: 1;
+    padding: 4px 6px; border-radius: 8px;
+    transition: background .15s, color .15s;
+  }
+  .feed-del:hover { background: #f6e2e2; color: var(--danger); }
+
+  /* --- Empty state --- */
+  .empty {
+    text-align: center;
+    color: var(--ink-soft);
+    padding: 28px 12px;
+  }
+  .empty .big { font-size: 2.6rem; display: block; margin-bottom: 8px; }
+
+  /* --- Data / IO --- */
+  details.io summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--ink-soft);
+    list-style: none;
+  }
+  details.io summary::-webkit-details-marker { display: none; }
+  details.io summary::before { content: "▸ "; }
+  details.io[open] summary::before { content: "▾ "; }
+  details.io .io-body { margin-top: 14px; }
+  details.io textarea { min-height: 110px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .85rem; }
+  .io-note { font-size: .82rem; color: var(--ink-soft); margin: 6px 0 0; }
+
+  footer {
+    text-align: center;
+    color: var(--ink-soft);
+    font-size: .82rem;
+    margin-top: 30px;
+  }
+
+  @media (max-width: 560px) {
+    form .fields { grid-template-columns: 1fr; }
+    .wrap { padding: 16px 12px 48px; }
+    .card { padding: 16px; }
+  }
+
+  .visually-hidden { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <span class="brand-badge">Red Egg Marketing</span>
+    <h1>🏆 Dusty Stick Awards</h1>
+    <p>The most prestigious honor in the land. Award a dusty stick 🌵🥢 to a deserving colleague and let the leaderboard settle who reigns supreme.</p>
+  </header>
+
+  <!-- Give an award -->
+  <section class="card" aria-labelledby="give-h">
+    <h2 id="give-h">🌵 Bestow a Dusty Stick</h2>
+    <form id="award-form" novalidate>
+      <div class="fields">
+        <div class="field">
+          <label for="giver">Giver</label>
+          <input type="text" id="giver" name="giver" autocomplete="off" placeholder="Who's giving?" maxlength="60" />
+        </div>
+        <div class="field">
+          <label for="receiver">Receiver</label>
+          <input type="text" id="receiver" name="receiver" autocomplete="off" placeholder="Who earned it?" maxlength="60" />
+        </div>
+        <div class="field full">
+          <label for="reason">Reason</label>
+          <textarea id="reason" name="reason" placeholder="What glorious deed warrants a dusty stick?" maxlength="500"></textarea>
+        </div>
+      </div>
+      <div class="form-error" id="form-error" role="alert"></div>
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">🏆 Give the Dusty Stick</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Leaderboard -->
+  <section class="card leaderboard" aria-labelledby="board-h">
+    <h2 id="board-h">👑 Leaderboard <span class="hint" id="board-total"></span></h2>
+    <div id="board-mount"></div>
+  </section>
+
+  <!-- Recent feed -->
+  <section class="card" aria-labelledby="feed-h">
+    <h2 id="feed-h">🕒 Recent Awards</h2>
+    <div id="feed-mount"></div>
+  </section>
+
+  <!-- Data IO -->
+  <section class="card" aria-labelledby="io-h">
+    <details class="io">
+      <summary id="io-h">💾 Backup, Export &amp; Import</summary>
+      <div class="io-body">
+        <p class="io-note">Everything lives in your browser's localStorage (nothing leaves this device). Export a JSON backup to share or archive, and import it on any browser to restore.</p>
+        <div class="btn-row">
+          <button type="button" class="btn btn-ghost" id="export-btn">⬇️ Export JSON</button>
+          <button type="button" class="btn btn-ghost" id="import-file-btn">📂 Import from file</button>
+          <input type="file" id="import-file" accept="application/json,.json" class="visually-hidden" />
+        </div>
+        <div class="io-body">
+          <label for="import-text">…or paste JSON to import</label>
+          <textarea id="import-text" placeholder='[{"giver":"...","receiver":"...","reason":"...","timestamp":"..."}]'></textarea>
+          <div class="btn-row">
+            <button type="button" class="btn btn-ghost" id="import-text-btn">📥 Import pasted JSON</button>
+            <span class="io-note" id="io-status"></span>
+          </div>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <footer>
+    Made with dust &amp; questionable judgment. 🌵 An inside joke, immortalized.
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var STORAGE_KEY = "dustyStickAwards.v1";
+
+  // ---------- Storage ----------
+  function loadAwards() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return [];
+      var data = JSON.parse(raw);
+      if (!Array.isArray(data)) return [];
+      return data.filter(isValidAward);
+    } catch (e) {
+      console.error("Failed to load awards:", e);
+      return [];
+    }
+  }
+
+  function saveAwards(awards) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(awards));
+    } catch (e) {
+      console.error("Failed to save awards:", e);
+      alert("Could not save — your browser storage may be full or disabled.");
+    }
+  }
+
+  function isValidAward(a) {
+    return a && typeof a === "object" &&
+      typeof a.giver === "string" && a.giver.trim() !== "" &&
+      typeof a.receiver === "string" && a.receiver.trim() !== "" &&
+      typeof a.reason === "string" && a.reason.trim() !== "" &&
+      typeof a.timestamp === "string";
+  }
+
+  // ---------- Helpers ----------
+  function genId() {
+    return "a_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 8);
+  }
+
+  function normalizeName(name) {
+    return name.trim().toLowerCase().replace(/\s+/g, " ");
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function sticksFor(n) {
+    if (n <= 0) return "";
+    if (n > 5) return "🥢×" + n;
+    return new Array(n + 1).join("🥢");
+  }
+
+  function relativeTime(iso) {
+    var then = new Date(iso).getTime();
+    if (isNaN(then)) return "";
+    var diff = Date.now() - then;
+    var sec = Math.round(diff / 1000);
+    var min = Math.round(sec / 60);
+    var hr = Math.round(min / 60);
+    var day = Math.round(hr / 24);
+    if (sec < 45) return "just now";
+    if (min < 60) return min + (min === 1 ? " min ago" : " mins ago");
+    if (hr < 24) return hr + (hr === 1 ? " hour ago" : " hours ago");
+    if (day < 30) return day + (day === 1 ? " day ago" : " days ago");
+    return absoluteTime(iso);
+  }
+
+  function absoluteTime(iso) {
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return "";
+    try {
+      return d.toLocaleString(undefined, {
+        year: "numeric", month: "short", day: "numeric",
+        hour: "numeric", minute: "2-digit"
+      });
+    } catch (e) {
+      return d.toISOString();
+    }
+  }
+
+  // ---------- State ----------
+  var awards = loadAwards();
+
+  // ---------- Rendering ----------
+  function computeLeaderboard(list) {
+    var map = {}; // normalized -> { display, count }
+    list.forEach(function (a) {
+      var key = normalizeName(a.receiver);
+      if (!map[key]) {
+        map[key] = { display: a.receiver.trim(), count: 0, latest: 0 };
+      }
+      map[key].count += 1;
+      var t = new Date(a.timestamp).getTime();
+      if (!isNaN(t) && t > map[key].latest) {
+        map[key].latest = t;
+        map[key].display = a.receiver.trim(); // use most recent spelling as canonical
+      }
+    });
+    var rows = Object.keys(map).map(function (k) { return map[k]; });
+    rows.sort(function (x, y) {
+      if (y.count !== x.count) return y.count - x.count;
+      return x.display.toLowerCase().localeCompare(y.display.toLowerCase());
+    });
+    return rows;
+  }
+
+  function renderLeaderboard() {
+    var mount = document.getElementById("board-mount");
+    var totalEl = document.getElementById("board-total");
+    var rows = computeLeaderboard(awards);
+
+    totalEl.textContent = awards.length
+      ? awards.length + (awards.length === 1 ? " stick awarded" : " sticks awarded")
+      : "";
+
+    if (rows.length === 0) {
+      mount.innerHTML = '<div class="empty"><span class="big">🌵</span>' +
+        'No dusty sticks yet. The leaderboard awaits its first legend.</div>';
+      return;
+    }
+
+    var lastCount = null;
+    var displayRank = 0;
+    var html = '<ol class="board">';
+    rows.forEach(function (r, i) {
+      // Standard competition ranking (ties share a rank)
+      if (r.count !== lastCount) {
+        displayRank = i + 1;
+        lastCount = r.count;
+      }
+      var topClass = "";
+      if (displayRank === 1) topClass = " top1";
+      else if (displayRank === 2) topClass = " top2";
+      else if (displayRank === 3) topClass = " top3";
+
+      html += '<li class="' + topClass.trim() + '">' +
+        '<span class="rank">' + (displayRank === 1 ? "👑" : displayRank) + '</span>' +
+        '<span class="board-name">' + escapeHtml(r.display) + '</span>' +
+        '<span class="board-count">' +
+          '<span class="sticks" aria-hidden="true">' + sticksFor(r.count) + '</span>' +
+          '<span>' + r.count + '</span>' +
+        '</span>' +
+      '</li>';
+    });
+    html += '</ol>';
+    mount.innerHTML = html;
+  }
+
+  function renderFeed() {
+    var mount = document.getElementById("feed-mount");
+    if (awards.length === 0) {
+      mount.innerHTML = '<div class="empty"><span class="big">🕸️</span>' +
+        'Nothing here yet. Go bestow the inaugural dusty stick!</div>';
+      return;
+    }
+
+    var sorted = awards.slice().sort(function (a, b) {
+      return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+    });
+
+    var html = '<ul class="feed">';
+    sorted.forEach(function (a) {
+      html += '<li>' +
+        '<span class="feed-icon" aria-hidden="true">🌵</span>' +
+        '<div class="feed-body">' +
+          '<div class="feed-head">' +
+            '<span class="giver">' + escapeHtml(a.giver.trim()) + '</span>' +
+            '<span class="arrow">🥢→</span>' +
+            '<span class="receiver">' + escapeHtml(a.receiver.trim()) + '</span>' +
+          '</div>' +
+          '<div class="feed-reason">' + escapeHtml(a.reason.trim()) + '</div>' +
+          '<div class="feed-time" title="' + escapeHtml(absoluteTime(a.timestamp)) + '">' +
+            escapeHtml(relativeTime(a.timestamp)) + '</div>' +
+        '</div>' +
+        '<button class="feed-del" data-id="' + escapeHtml(a.id) + '" ' +
+          'title="Delete this award" aria-label="Delete this award">✕</button>' +
+      '</li>';
+    });
+    html += '</ul>';
+    mount.innerHTML = html;
+  }
+
+  function renderAll() {
+    renderLeaderboard();
+    renderFeed();
+  }
+
+  // ---------- Actions ----------
+  function addAward(giver, receiver, reason) {
+    awards.push({
+      id: genId(),
+      giver: giver.trim(),
+      receiver: receiver.trim(),
+      reason: reason.trim(),
+      timestamp: new Date().toISOString()
+    });
+    saveAwards(awards);
+    renderAll();
+  }
+
+  function deleteAward(id) {
+    var idx = -1;
+    for (var i = 0; i < awards.length; i++) {
+      if (awards[i].id === id) { idx = i; break; }
+    }
+    if (idx === -1) return;
+    var a = awards[idx];
+    var ok = confirm('Delete the dusty stick from ' + a.giver.trim() +
+      ' to ' + a.receiver.trim() + '?\n\nThis cannot be undone.');
+    if (!ok) return;
+    awards.splice(idx, 1);
+    saveAwards(awards);
+    renderAll();
+  }
+
+  // ---------- Import / Export ----------
+  function exportJson() {
+    var blob = new Blob([JSON.stringify(awards, null, 2)], { type: "application/json" });
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement("a");
+    var stamp = new Date().toISOString().slice(0, 10);
+    link.href = url;
+    link.download = "dusty-stick-awards-" + stamp + ".json";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    setStatus("Exported " + awards.length + " award(s).");
+  }
+
+  function normalizeImported(data) {
+    if (!Array.isArray(data)) throw new Error("JSON must be an array of awards.");
+    return data.map(function (a) {
+      if (!a || typeof a !== "object") throw new Error("Each item must be an object.");
+      var giver = typeof a.giver === "string" ? a.giver.trim() : "";
+      var receiver = typeof a.receiver === "string" ? a.receiver.trim() : "";
+      var reason = typeof a.reason === "string" ? a.reason.trim() : "";
+      if (!giver || !receiver || !reason) {
+        throw new Error("Every award needs a giver, receiver, and reason.");
+      }
+      var ts = typeof a.timestamp === "string" && !isNaN(new Date(a.timestamp).getTime())
+        ? a.timestamp : new Date().toISOString();
+      return {
+        id: (typeof a.id === "string" && a.id) ? a.id : genId(),
+        giver: giver, receiver: receiver, reason: reason, timestamp: ts
+      };
+    });
+  }
+
+  function importFromString(text) {
+    var parsed;
+    try {
+      parsed = JSON.parse(text);
+    } catch (e) {
+      setStatus("❌ Invalid JSON — could not parse.", true);
+      return;
+    }
+    var incoming;
+    try {
+      incoming = normalizeImported(parsed);
+    } catch (e) {
+      setStatus("❌ " + e.message, true);
+      return;
+    }
+
+    var mode = "replace";
+    if (awards.length > 0) {
+      mode = confirm(
+        "You have " + awards.length + " existing award(s).\n\n" +
+        "OK = MERGE the imported " + incoming.length + " award(s) with what you have.\n" +
+        "Cancel = REPLACE everything with the imported data."
+      ) ? "merge" : "replace";
+    }
+
+    if (mode === "merge") {
+      var seen = {};
+      awards.forEach(function (a) { seen[a.id] = true; });
+      var added = 0;
+      incoming.forEach(function (a) {
+        if (seen[a.id]) { a.id = genId(); }
+        seen[a.id] = true;
+        awards.push(a);
+        added++;
+      });
+      saveAwards(awards);
+      renderAll();
+      setStatus("✅ Merged " + added + " award(s). Total: " + awards.length + ".");
+    } else {
+      awards = incoming;
+      saveAwards(awards);
+      renderAll();
+      setStatus("✅ Replaced — now " + awards.length + " award(s).");
+    }
+    document.getElementById("import-text").value = "";
+  }
+
+  var statusTimer;
+  function setStatus(msg, isError) {
+    var el = document.getElementById("io-status");
+    el.textContent = msg;
+    el.style.color = isError ? "var(--danger)" : "var(--dust-deep)";
+    clearTimeout(statusTimer);
+    statusTimer = setTimeout(function () { el.textContent = ""; }, 6000);
+  }
+
+  // ---------- Wiring ----------
+  document.getElementById("award-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var giver = document.getElementById("giver");
+    var receiver = document.getElementById("receiver");
+    var reason = document.getElementById("reason");
+    var errEl = document.getElementById("form-error");
+
+    var missing = [];
+    if (!giver.value.trim()) missing.push("Giver");
+    if (!receiver.value.trim()) missing.push("Receiver");
+    if (!reason.value.trim()) missing.push("Reason");
+
+    if (missing.length) {
+      errEl.textContent = "Please fill in: " + missing.join(", ") + ".";
+      return;
+    }
+    errEl.textContent = "";
+    addAward(giver.value, receiver.value, reason.value);
+    this.reset();
+    giver.focus();
+  });
+
+  // Delete via event delegation on the feed
+  document.getElementById("feed-mount").addEventListener("click", function (e) {
+    var btn = e.target.closest ? e.target.closest(".feed-del") : null;
+    if (btn && btn.getAttribute("data-id")) {
+      deleteAward(btn.getAttribute("data-id"));
+    }
+  });
+
+  document.getElementById("export-btn").addEventListener("click", exportJson);
+
+  document.getElementById("import-text-btn").addEventListener("click", function () {
+    var text = document.getElementById("import-text").value.trim();
+    if (!text) { setStatus("Paste some JSON first.", true); return; }
+    importFromString(text);
+  });
+
+  document.getElementById("import-file-btn").addEventListener("click", function () {
+    document.getElementById("import-file").click();
+  });
+
+  document.getElementById("import-file").addEventListener("change", function (e) {
+    var file = e.target.files && e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function () { importFromString(String(reader.result)); };
+    reader.onerror = function () { setStatus("❌ Could not read file.", true); };
+    reader.readAsText(file);
+    e.target.value = ""; // allow re-importing same file
+  });
+
+  // Refresh relative timestamps periodically
+  setInterval(function () {
+    if (awards.length) renderFeed();
+  }, 60000);
+
+  // Initial paint
+  renderAll();
+})();
+</script>
+</body>
+</html>
