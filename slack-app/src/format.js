@@ -54,9 +54,17 @@ export function leaderboardBlocks(rows, { header = true } = {}) {
   const blocks = [];
 
   if (header) {
+    // NOTE: custom emoji (:dusty_stick:) don't reliably render in a plain_text
+    // header block — they can show as literal text — so the header keeps the
+    // trophy only, and the :dusty_stick: shows in the mrkdwn count/empty lines
+    // below (and in this context line) where custom emoji render correctly.
     blocks.push({
       type: "header",
-      text: { type: "plain_text", text: "🌵🏆 Dusty Stick Leaderboard", emoji: true },
+      text: { type: "plain_text", text: "🏆 Dusty Stick Leaderboard", emoji: true },
+    });
+    blocks.push({
+      type: "context",
+      elements: [{ type: "mrkdwn", text: ":dusty_stick: Most dusty sticks earned" }],
     });
   }
 
@@ -65,7 +73,7 @@ export function leaderboardBlocks(rows, { header = true } = {}) {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: "No dusty sticks awarded yet. Be the first — `/dustystick @someone <reason>` 🌵",
+        text: "No dusty sticks awarded yet. Be the first — `/dustystick @someone <reason>` :dusty_stick:",
       },
     });
     return blocks;
@@ -74,7 +82,7 @@ export function leaderboardBlocks(rows, { header = true } = {}) {
   const lines = rows.map((row, i) => {
     const badge = rankBadge(i);
     const name = mentionOrName(row.receiver_id, row.receiver_name);
-    const count = `${row.total} 🌵`;
+    const count = `${row.total} :dusty_stick:`;
     return `${badge} ${name} — *${count}*`;
   });
 

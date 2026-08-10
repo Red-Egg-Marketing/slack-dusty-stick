@@ -68,7 +68,7 @@ export default {
         // Slash command.
         const form = parseForm(rawBody);
         if (form.command) {
-          return handleSlashCommand(form, env);
+          return handleSlashCommand(form, env, ctx);
         }
       }
 
@@ -88,7 +88,7 @@ export default {
 // Slash command
 // ---------------------------------------------------------------------------
 
-async function handleSlashCommand(form, env) {
+async function handleSlashCommand(form, env, ctx) {
   const text = (form.text || "").trim();
   const giverId = form.user_id || "";
   const giverName = form.user_name || "someone";
@@ -109,6 +109,11 @@ async function handleSlashCommand(form, env) {
 
     case "recent":
       return await recentResponse(env);
+
+    case "joinall":
+    case "join":
+    case "join-all":
+      return joinAllResponse(form, env, ctx);
 
     default:
       // Anything else is treated as an award: "<@receiver> <reason>".
@@ -156,7 +161,7 @@ async function giveAwardResponse(text, giverId, giverName, channelId, env) {
         type: "section",
         text: {
           type: "mrkdwn",
-          text: `🌵🏆 *Dusty Stick Award!* 🏆🌵\n${giver} just handed a dusty stick to ${receiver}.`,
+          text: `:dusty_stick:🏆 *Dusty Stick Award!* 🏆:dusty_stick:\n${giver} just handed a dusty stick to ${receiver}.`,
         },
       },
       {
@@ -165,7 +170,7 @@ async function giveAwardResponse(text, giverId, giverName, channelId, env) {
       },
     ],
     // Fallback text for notifications / clients that don't render blocks.
-    text: `🌵🏆 ${giverName} gave a Dusty Stick Award to ${mention.name}: "${reason}"`,
+    text: `:dusty_stick:🏆 ${giverName} gave a Dusty Stick Award to ${mention.name}: "${reason}"`,
   });
 }
 
@@ -174,7 +179,7 @@ async function leaderboardResponse(env) {
   return jsonResponse({
     response_type: "in_channel",
     blocks: leaderboardBlocks(rows),
-    text: "🌵🏆 Dusty Stick Leaderboard",
+    text: ":dusty_stick:🏆 Dusty Stick Leaderboard",
   });
 }
 
@@ -184,7 +189,7 @@ async function recentResponse(env) {
   if (rows.length === 0) {
     return jsonResponse({
       response_type: "ephemeral",
-      text: "No dusty sticks awarded yet. Give one with `/dustystick @someone <reason>` 🌵",
+      text: "No dusty sticks awarded yet. Give one with `/dustystick @someone <reason>` :dusty_stick:",
     });
   }
 
@@ -192,19 +197,64 @@ async function recentResponse(env) {
     const giver = mentionOrName(r.giver_id, r.giver_name);
     const receiver = mentionOrName(r.receiver_id, r.receiver_name);
     const when = relativeTime(r.created_at);
-    return `🌵 ${giver} → ${receiver}: _"${escapeSlackText(r.reason)}"_  · _${when}_`;
+    return `:dusty_stick: ${giver} → ${receiver}: _"${escapeSlackText(r.reason)}"_  · _${when}_`;
   });
 
   return jsonResponse({
     response_type: "ephemeral",
     blocks: [
       {
+        // Custom emoji don't render reliably in a plain_text header, so the
+        // :dusty_stick: appears in the mrkdwn lines below instead.
         type: "header",
-        text: { type: "plain_text", text: "🌵 Recent Dusty Sticks", emoji: true },
+        text: { type: "plain_text", text: "Recent Dusty Sticks", emoji: true },
       },
       { type: "section", text: { type: "mrkdwn", text: lines.join("\n") } },
     ],
     text: "Recent Dusty Sticks",
+  });
+}
+
+/**
+ * Admin backfill: add the bot to every public channel so it receives reaction
+ * events there (Slack only delivers reactions for channels the bot is in).
+ *
+ * Enumerating and joining channels can easily exceed Slack's 3-second slash
+ * window, so we ACK immediately with an ephemeral "on it" and do the join loop
+ * in the background (ctx.waitUntil), reporting completion back via the slash
+ * command's response_url. Idempotent: joining an already-joined channel is a
+ * no-op, and channels the bot is already a member of are skipped up front.
+ */
+function joinAllResponse(form, env, ctx) {
+  const responseUrl = form.response_url || null;
+
+  runInBackground(
+    ctx,
+    (async () => {
+      try {
+        const { joined, total } = await joinAllPublicChannels(env);
+        await postToResponseUrl(responseUrl, {
+          response_type: "ephemeral",
+          text:
+            `Joined ${joined} public channel${joined === 1 ? "" : "s"} ` +
+            `(scanned ${total}). New public channels are joined automatically.`,
+        });
+      } catch (err) {
+        console.error(
+          "joinall failed:",
+          err && err.stack ? err.stack : err
+        );
+        await postToResponseUrl(responseUrl, {
+          response_type: "ephemeral",
+          text: "Ran into a problem joining channels. Check the Worker logs.",
+        });
+      }
+    })()
+  );
+
+  return jsonResponse({
+    response_type: "ephemeral",
+    text: "On it — joining public channels…",
   });
 }
 
@@ -213,20 +263,25 @@ function helpResponse() {
     response_type: "ephemeral",
     blocks: [
       {
+        // :dusty_stick: kept out of the plain_text header (renders literally
+        // there); it leads the mrkdwn section below where it renders correctly.
         type: "header",
-        text: { type: "plain_text", text: "🌵🏆 Dusty Stick Awards", emoji: true },
+        text: { type: "plain_text", text: "🏆 Dusty Stick Awards", emoji: true },
       },
       {
         type: "section",
         text: {
           type: "mrkdwn",
           text: [
-            "Give and track dusty sticks around the team.",
+            ":dusty_stick: Give and track dusty sticks around the team.",
             "",
             "• `/dustystick @person <reason>` — award a dusty stick",
             "• `/dustystick leaderboard` — see who's collected the most",
             "• `/dustystick recent` — the last 10 awards",
+            "• `/dustystick joinall` — add the bot to all public channels",
             "• `/dustystick help` — show this message",
+            "",
+            "_`joinall` may post a one-time \"added to channel\" notice in each channel it joins._",
           ].join("\n"),
         },
       },
@@ -268,6 +323,10 @@ async function handleEvent(payload, env, ctx) {
       await runInBackground(ctx, handleReactionAdded(event, env));
     } else if (event.type === "reaction_removed") {
       await runInBackground(ctx, handleReactionRemoved(event, env));
+    } else if (event.type === "channel_created") {
+      // Auto-join newly created public channels so the bot starts receiving
+      // their reaction events without an admin having to /invite it.
+      await runInBackground(ctx, handleChannelCreated(event, env));
     }
   }
 
@@ -349,6 +408,137 @@ export async function handleReactionRemoved(event, env) {
   });
 }
 
+// ---------------------------------------------------------------------------
+// Auto-join channels
+// ---------------------------------------------------------------------------
+
+/**
+ * A public channel was created. Join it so the bot receives its reaction
+ * events. `channel_created` delivers the new channel as an object with an `id`.
+ * Best-effort; never throws (runs in the background after we've ACKed Slack).
+ */
+export async function handleChannelCreated(event, env) {
+  const channelId = event.channel && event.channel.id;
+  if (!channelId) return;
+  await joinChannel(channelId, env);
+}
+
+/**
+ * Enumerate every public channel and join the ones the bot isn't already in.
+ * Returns { total, joined }. Idempotent and safe to run repeatedly.
+ */
+export async function joinAllPublicChannels(env) {
+  const channels = await listPublicChannels(env);
+  let joined = 0;
+  for (const channel of channels) {
+    if (channel.is_member) continue; // already in — skip the API call.
+    const ok = await joinChannel(channel.id, env);
+    if (ok) joined++;
+  }
+  return { total: channels.length, joined };
+}
+
+/**
+ * List all non-archived public channels via conversations.list, following the
+ * `next_cursor` pagination until exhausted. Returns an array of channel objects
+ * (each has at least `id` and `is_member`). Never throws — logs and returns
+ * whatever it gathered on error.
+ */
+async function listPublicChannels(env) {
+  const channels = [];
+  let cursor = "";
+  try {
+    // Bound the loop defensively so a misbehaving cursor can't spin forever.
+    for (let page = 0; page < 100; page++) {
+      const params = new URLSearchParams({
+        types: "public_channel",
+        exclude_archived: "true",
+        limit: "200",
+      });
+      if (cursor) params.set("cursor", cursor);
+
+      const res = await fetch(
+        "https://slack.com/api/conversations.list?" + params,
+        { headers: { Authorization: `Bearer ${env.SLACK_BOT_TOKEN}` } }
+      );
+      const data = await res.json().catch(() => ({}));
+      if (!data.ok) {
+        console.error("conversations.list failed:", JSON.stringify(data));
+        break;
+      }
+
+      for (const channel of data.channels || []) {
+        channels.push(channel);
+      }
+
+      cursor = data.response_metadata && data.response_metadata.next_cursor;
+      if (!cursor) break;
+    }
+  } catch (err) {
+    console.error(
+      "conversations.list error:",
+      err && err.stack ? err.stack : err
+    );
+  }
+  return channels;
+}
+
+/**
+ * Join a single channel via conversations.join (bot token). Returns true on
+ * success, false otherwise. Joining an already-joined channel is a no-op that
+ * Slack reports as ok. On `ratelimited` we skip the channel and keep going so
+ * one throttled call never aborts the whole loop. Never throws.
+ */
+async function joinChannel(channelId, env) {
+  try {
+    const res = await fetch("https://slack.com/api/conversations.join", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        Authorization: `Bearer ${env.SLACK_BOT_TOKEN}`,
+      },
+      body: JSON.stringify({ channel: channelId }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (data.ok) return true;
+    if (data.error === "ratelimited") {
+      console.error(`conversations.join ratelimited for ${channelId}; skipping`);
+      return false;
+    }
+    console.error(
+      `conversations.join failed for ${channelId}:`,
+      JSON.stringify(data)
+    );
+    return false;
+  } catch (err) {
+    console.error(
+      `conversations.join error for ${channelId}:`,
+      err && err.stack ? err.stack : err
+    );
+    return false;
+  }
+}
+
+/**
+ * POST a JSON payload to a slash command's response_url to send a delayed
+ * follow-up message to the invoking user. Best-effort; never throws.
+ */
+async function postToResponseUrl(responseUrl, payload) {
+  if (!responseUrl) return;
+  try {
+    await fetch(responseUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+      body: JSON.stringify(payload),
+    });
+  } catch (err) {
+    console.error(
+      "response_url post error:",
+      err && err.stack ? err.stack : err
+    );
+  }
+}
+
 /** True only for a :dusty_stick: reaction on a message (not a file, etc.). */
 function isDustyStickMessageReaction(event) {
   return (
@@ -405,8 +595,14 @@ async function publishHome(userId, env) {
 
   const blocks = [
     {
+      // :dusty_stick: stays out of the plain_text header (renders literally
+      // there); it shows in the mrkdwn context line and how-to section below.
       type: "header",
-      text: { type: "plain_text", text: "🌵🏆 Dusty Stick Awards", emoji: true },
+      text: { type: "plain_text", text: "🏆 Dusty Stick Awards", emoji: true },
+    },
+    {
+      type: "context",
+      elements: [{ type: "mrkdwn", text: ":dusty_stick: Dusty Stick Awards" }],
     },
     ...leaderboardBlocks(rows, { header: false }),
     { type: "divider" },
@@ -416,7 +612,7 @@ async function publishHome(userId, env) {
         type: "mrkdwn",
         text: [
           "*How to use*",
-          "• `/dustystick @person <reason>` — award a dusty stick 🌵",
+          "• `/dustystick @person <reason>` — award a dusty stick :dusty_stick:",
           "• `/dustystick leaderboard` — full standings",
           "• `/dustystick recent` — the latest awards",
         ].join("\n"),
