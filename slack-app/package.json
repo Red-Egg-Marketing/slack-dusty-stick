@@ -1,0 +1,15 @@
+{
+  "name": "dusty-stick-slack-app",
+  "version": "1.0.0",
+  "description": "Slack app for Red Egg Marketing's Dusty Stick Awards — a Cloudflare Worker backed by Cloudflare D1.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:init": "wrangler d1 execute dusty-stick --file=./schema.sql --remote"
+  },
+  "devDependencies": {
+    "wrangler": "^3.90.0"
+  }
+}

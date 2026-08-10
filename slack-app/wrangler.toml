@@ -1,0 +1,23 @@
+name = "dusty-stick"
+main = "src/index.js"
+compatibility_date = "2024-11-01"
+
+# ---------------------------------------------------------------------------
+# Cloudflare D1 binding.
+# Create the database once with:  npx wrangler d1 create dusty-stick
+# Then paste the returned "database_id" value below (replace the placeholder).
+# ---------------------------------------------------------------------------
+[[d1_databases]]
+binding = "DB"
+database_name = "dusty-stick"
+database_id = "REPLACE_WITH_YOUR_DATABASE_ID"
+
+# ---------------------------------------------------------------------------
+# Secrets (do NOT put these here — set them with `wrangler secret put`):
+#   npx wrangler secret put SLACK_SIGNING_SECRET
+#   npx wrangler secret put SLACK_BOT_TOKEN
+#
+# SLACK_SIGNING_SECRET — from your Slack app's "Basic Information" page.
+# SLACK_BOT_TOKEN      — the "Bot User OAuth Token" (starts with xoxb-),
+#                        used to call views.publish for the App Home tab.
+# ---------------------------------------------------------------------------
