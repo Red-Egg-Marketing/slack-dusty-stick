@@ -26,25 +26,25 @@ const DEFAULT_DAYS = 30;
 const DEFAULT_LIMIT = 15;
 
 /**
- * Proud, tongue-in-cheek slogans for the No-Taco Club — the folks too busy
- * doing real work (talking to actual humans, managing, shipping) to bother
- * collecting shiny trinkets. One is picked at random for each board.
+ * Slogans for the No-Taco Club — openly (good-naturedly) ribbing the folks who
+ * DO collect tacos, from the perspective of those too busy doing real work to
+ * bother. One is picked at random for each board.
  */
 export const NO_TACO_SLOGANS = [
-  "Too busy talking to actual humans to chase tacos.",
-  "Out here managing while everyone else collects trinkets.",
-  "Real work doesn't come with tacos.",
-  "Someone's gotta run the place while the tacos fly.",
-  "Shiny trinkets are for people with spare time.",
-  "Leading meetings, not leaderboards.",
-  "On client calls, not collecting condiments.",
-  "Zero tacos, infinite responsibilities.",
-  "You give tacos. We give results.",
-  "Hands too full of real work to catch a taco.",
-  "Too deep in the work to notice the taco economy.",
-  "Managing humans, not farming tacos.",
-  "Fueled by deadlines, not tacos.",
-  "The grown-ups' table doesn't hand out tacos.",
+  "While you were farming tacos, we shipped the thing.",
+  "Cute taco pile. We were on a call with an actual client.",
+  "Some of us work here. Some of us collect tacos.",
+  "You've got tacos. We've got things done.",
+  "Enjoy your condiments — we'll be over here running the place.",
+  "Taco leaderboard champ: peaked in Slack.",
+  "Nice tacos. Did any of them close a deal?",
+  "Collecting tacos is a hobby. Ours is competence.",
+  "One of us was in meetings. It wasn't the taco crowd.",
+  "Tacos won't answer that client's email.",
+  "Grinding tacos while the grown-ups grind work.",
+  "Your taco streak is adorable. Our deadlines are not.",
+  "Big taco energy, modest results energy.",
+  "We don't chase tacos. Tacos are for people with time.",
 ];
 
 /** Pick a random No-Taco Club slogan. */
