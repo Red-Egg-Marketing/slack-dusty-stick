@@ -27,6 +27,9 @@ database server, no build step beyond Wrangler.
   revokes that award. You can't award yourself (a reaction on your own message is ignored).
 - **App Home tab** — shows the leaderboard plus a short "how to use" section, refreshed
   each time someone opens the app's Home tab.
+- **`/highscores`** — the **Red Egg arcade high-score board**. A separate, unrelated
+  feature that lives on the same Worker (see [Red Egg High Scores](#red-egg-high-scores-highscores)
+  below). `/highscores help` shows usage.
 - **`/dustystick joinall`** — adds the bot to every public channel so it can see
   `:dusty_stick:` reactions there. Slack only delivers reaction events for channels the
   bot is a member of, so this is a one-time backfill; run it once after installing. It's
@@ -34,6 +37,40 @@ database server, no build step beyond Wrangler.
   channel" notice in each channel it joins. New public channels are joined automatically
   going forward (via the `channel_created` event). **Private** channels still need a manual
   `/invite @Dusty Stick Awards` — bots cannot self-join private channels.
+
+## Red Egg High Scores (`/highscores`)
+
+A second, independent feature bolted onto the same Worker: a read-only high-score board
+for the Red Egg arcade game. It has **nothing to do with the Dusty Stick awards** and does
+**not** touch D1 — the scores live in the WordPress **Red Egg Game plugin** (`wp_game`
+table), which exposes them via a small read-only REST endpoint. The Worker fetches that
+endpoint on each `/highscores` call and renders the top 10 as a Block Kit board.
+
+```
+Slack  ──/highscores──▶  Worker  ──GET──▶  <GAME_API_BASE>/wp-json/red-egg-game/v1/leaderboard
+                          │
+                          └──▶  posts a Block Kit high-score board in-channel
+```
+
+**Config** (in `wrangler.toml` / secrets):
+
+- **`GAME_API_BASE`** (var, required) — base URL of the WordPress site running the game
+  plugin, e.g. `https://redeggmarketing.com`. Point it at prod or staging, wherever the
+  plugin actually lives. The Worker requests `<base>/wp-json/red-egg-game/v1/leaderboard`.
+- **`GAME_API_TOKEN`** (secret, optional) — a shared secret. If the plugin defines a
+  matching `RED_EGG_GAME_API_TOKEN`, set the same value here (`npx wrangler secret put
+  GAME_API_TOKEN`) and the Worker sends it as the `X-Red-Egg-Token` header. Leave both
+  unset to keep the endpoint open — it only ever returns `name` + `score` (never email).
+
+The endpoint returns a JSON array of `{ "name": "...", "score": 1234 }` ordered
+highest-first. If it's unreachable or misconfigured, `/highscores` replies with a
+friendly ephemeral error and logs the underlying cause for the operator. The `wp_game`
+table has no timestamp column, so only a **top-scores** board is possible (no "recent
+scores" feed) without a schema change.
+
+> **Requires the WordPress side.** Add the leaderboard endpoint to the Red Egg Game plugin
+> (see the drop-in `red-egg-game.php` snippet handed off alongside this change) and set
+> `GAME_API_BASE`, or `/highscores` will return the friendly error every time.
 
 ## Architecture at a glance
 
@@ -123,6 +160,10 @@ features:
       usage_hint: "@person <reason>  |  leaderboard  |  recent  |  help"
       # IMPORTANT: this must be true so Slack sends <@U123|name> mention tokens.
       should_escape: true
+    - command: /highscores
+      url: https://YOUR-WORKER-URL.workers.dev/
+      description: Show the Red Egg arcade high-score board
+      usage_hint: "(no args)  |  help"
 oauth_config:
   scopes:
     bot:
@@ -217,6 +258,10 @@ Wrangler prints your Worker URL (e.g. `https://dusty-stick.<subdomain>.workers.d
   permalink). Remove the reaction → award revoked. Reacting on your own message does
   nothing.
 - Open the app's **Home** tab → leaderboard + how-to.
+- `/highscores` → the arcade high-score board (needs `GAME_API_BASE` set and the WordPress
+  leaderboard endpoint live). Adding this second slash command does **not** require an app
+  reinstall — it uses the existing `commands` scope; just add the command in the Slack app
+  config (or via the manifest) pointing at the same Worker URL.
 
 ---
 
@@ -241,12 +286,15 @@ slack-app/
 ├── migrations/
 │   └── 0001_add_reaction_support.sql  # ALTER TABLE for DBs created pre-reactions
 ├── test/
-│   └── reactions.test.js               # functional test for reaction add/remove
+│   ├── reactions.test.js               # functional test for reaction add/remove
+│   ├── joinall.test.js                 # functional test for the joinall channel loop
+│   └── game.test.js                    # functional test for /highscores fetch + render
 └── src/
     ├── index.js        # entry point: routing, slash commands, events, reactions, App Home
     ├── verify.js       # Slack request signature verification (HMAC-SHA256)
     ├── db.js           # D1 queries (insert / delete reaction / leaderboard / recent)
-    └── format.js       # escaping, relative time, Block Kit builders
+    ├── format.js       # escaping, relative time, Block Kit builders
+    └── game.js         # /highscores: fetch WP leaderboard + render Block Kit
 ```
 
 ## Notes / caveats
