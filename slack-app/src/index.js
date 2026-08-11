@@ -107,6 +107,11 @@ async function handleSlashCommand(form, env, ctx) {
     case "top":
       return await leaderboardResponse(env);
 
+    case "shame-shame-shame":
+    case "shame-shame":
+    case "shame":
+      return await shameResponse(env);
+
     case "recent":
       return await recentResponse(env);
 
@@ -120,6 +125,8 @@ async function handleSlashCommand(form, env, ctx) {
       return await giveAwardResponse(text, giverId, giverName, channelId, env);
   }
 }
+
+
 
 /**
  * Parse and record an award. The text should look like:
@@ -173,6 +180,47 @@ async function giveAwardResponse(text, giverId, giverName, channelId, env) {
     text: `:dusty_stick: ${giverName} handed ${mention.name} a Dusty Stick: "${reason}" — oof.`,
   });
 }
+
+async function shameResponse(env) {
+  const rows = await getLeaderboard(env.DB, 15);
+
+  if (rows.length === 0) {
+    return jsonResponse({
+      response_type: "ephemeral",
+      text: "Nobody to shame yet — the board's empty. Hand one out with `/dustystick @someone <reason>` :dusty_stick:",
+    });
+  }
+
+  const top = rows[0];
+  const loser = mentionOrName(top.receiver_id, top.receiver_name);
+  const plainName = top.receiver_name || top.receiver_id;
+  const count = top.count;
+
+  return jsonResponse({
+    response_type: "in_channel",
+    blocks: [
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text:
+            `:dusty_stick: *Shame, shame, shame* :dusty_stick:\n` +
+            `${loser} is running away with it — *${count}* dusty stick${count === 1 ? "" : "s"}. ` +
+            `Maybe take a break from Slack.`,
+        },
+      },
+      {
+        type: "image",
+        image_url: randomShameGif(),
+        alt_text: "Shame, shame, shame",
+      },
+      { type: "divider" },
+      ...leaderboardBlocks(rows, { header: false }),
+    ],
+    text: `Wow, ${plainName} — maybe you should take a break from Slack.`,
+  });
+}
+
 
 async function leaderboardResponse(env) {
   const rows = await getLeaderboard(env.DB, 15);
@@ -355,6 +403,18 @@ async function runInBackground(ctx, work) {
 // The custom emoji whose reaction grants a dusty stick.
 const REACTION_EMOJI = "dusty_stick";
 
+
+// Publicly reachable .gif URLs — Slack fetches these server-side.
+const SHAME_GIFS = [
+  "https://dusty-stick.web-026.workers.dev/img/shame-1.gif",
+  "https://dusty-stick.web-026.workers.dev/img/shame-2.gif",
+  "https://dusty-stick.web-026.workers.dev/img/shame-3.gif",
+];
+
+/** Pick a random shame gif. */
+function randomShameGif() {
+  return SHAME_GIFS[Math.floor(Math.random() * SHAME_GIFS.length)];
+}
 /**
  * Someone reacted with :dusty_stick:. Log an award where the giver is the
  * reactor and the receiver is the author of the reacted-to message.

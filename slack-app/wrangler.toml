@@ -10,7 +10,7 @@ compatibility_date = "2024-11-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "dusty-stick"
-database_id = "REPLACE_WITH_YOUR_DATABASE_ID"
+database_id = "c2f4e19e-e569-4298-9272-1992b3d2f883"
 
 # ---------------------------------------------------------------------------
 # Secrets (do NOT put these here — set them with `wrangler secret put`):

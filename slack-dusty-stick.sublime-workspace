@@ -1,0 +1,1438 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"get_th",
+				"get_the_ID"
+			],
+			[
+				"get_i",
+				"get_resource_id()"
+			],
+			[
+				"get_the",
+				"get_the_ID"
+			],
+			[
+				"has",
+				"has_event"
+			],
+			[
+				"wp-ap",
+				"wp-api-request"
+			],
+			[
+				"cu",
+				"currentIndex"
+			],
+			[
+				"cons",
+				"console"
+			],
+			[
+				"pa",
+				"pagination"
+			],
+			[
+				"con",
+				"console"
+			],
+			[
+				"ma",
+				"match"
+			],
+			[
+				"a",
+				"activeSlide"
+			],
+			[
+				"act",
+				"activeSlide"
+			],
+			[
+				"co",
+				"console"
+			],
+			[
+				"fon",
+				"font-family"
+			],
+			[
+				"font",
+				"font-weight"
+			],
+			[
+				"sli",
+				"slides"
+			],
+			[
+				"class",
+				"className"
+			],
+			[
+				"s",
+				"stretch"
+			],
+			[
+				"active",
+				"active-period"
+			],
+			[
+				"get",
+				"getAttribute"
+			],
+			[
+				"cl",
+				"clickedSlide"
+			],
+			[
+				"da",
+				"dataPeriod"
+			],
+			[
+				"data",
+				"data-period"
+			],
+			[
+				"acti",
+				"active-period"
+			],
+			[
+				"per",
+				"percentBottom"
+			],
+			[
+				"tr",
+				"transition-duration"
+			],
+			[
+				"transi",
+				"transition-property"
+			],
+			[
+				"win",
+				"winHeight"
+			],
+			[
+				"cosn",
+				"console"
+			],
+			[
+				"aci",
+				"active-slide"
+			],
+			[
+				"di",
+				"difference"
+			],
+			[
+				"dir",
+				"difference"
+			],
+			[
+				"root",
+				"rootHeight"
+			],
+			[
+				"of",
+				"offsetTop"
+			],
+			[
+				"tra",
+				"transition-property"
+			],
+			[
+				"in",
+				"intersectionRatio"
+			],
+			[
+				"transition-d",
+				"transition-duration"
+			],
+			[
+				"mar",
+				"margin-top"
+			],
+			[
+				"f",
+				"filter"
+			],
+			[
+				"fi",
+				"filter"
+			],
+			[
+				"m",
+				"margin-top"
+			],
+			[
+				"dat",
+				"dateAttr"
+			],
+			[
+				"pe",
+				"period"
+			],
+			[
+				"quer",
+				"querySelectorAll"
+			],
+			[
+				"tem",
+				"tempSwiper"
+			],
+			[
+				"padd",
+				"padding-bottom"
+			],
+			[
+				"cli",
+				"clickedSlide"
+			],
+			[
+				"temp",
+				"tempSwiper"
+			],
+			[
+				"te",
+				"tempSwiper"
+			],
+			[
+				"gri",
+				"grid-column-gap"
+			],
+			[
+				"max",
+				"max-height"
+			],
+			[
+				"bor",
+				"border-radius"
+			],
+			[
+				"st",
+				"sticky"
+			],
+			[
+				"nav",
+				"navLoaded"
+			],
+			[
+				"cn",
+				"console"
+			],
+			[
+				"In",
+				"InspectorControls"
+			],
+			[
+				"set",
+				"setAttributes"
+			],
+			[
+				"al",
+				"align-items"
+			],
+			[
+				"l",
+				"length"
+			],
+			[
+				"tim",
+				"timestamp"
+			],
+			[
+				"php",
+				"phpinfo()"
+			],
+			[
+				"fe",
+				"flex-end"
+			],
+			[
+				"reo",
+				"resource-title"
+			],
+			[
+				"mi",
+				"min-height"
+			],
+			[
+				"min",
+				"min-height"
+			],
+			[
+				"flex",
+				"flex-end"
+			],
+			[
+				"hero",
+				"hero-block-image-wrap"
+			],
+			[
+				"amw",
+				"amwa_shop_header"
+			],
+			[
+				"prin",
+				"print_r()"
+			],
+			[
+				"tex",
+				"text-align"
+			],
+			[
+				"p",
+				"padding-top"
+			],
+			[
+				"de",
+				"description"
+			],
+			[
+				"pro",
+				"product"
+			],
+			[
+				"remo",
+				"remove_archive_header"
+			],
+			[
+				"object",
+				"object-position"
+			],
+			[
+				"get_s",
+				"get_stylesheet_directory_uri"
+			],
+			[
+				"her",
+				"hero-block-wrap"
+			],
+			[
+				"t",
+				"transition-duration"
+			],
+			[
+				"tran",
+				"transition-property"
+			],
+			[
+				"dis",
+				"display_product_date"
+			],
+			[
+				"upd",
+				"updateVal"
+			],
+			[
+				"mat",
+				"matches"
+			],
+			[
+				"se",
+				"setCurrentTypes"
+			],
+			[
+				"fin",
+				"finalProduct"
+			],
+			[
+				"retu",
+				"return"
+			],
+			[
+				"A",
+				"AMWA"
+			],
+			[
+				"var",
+				"variation"
+			],
+			[
+				"re",
+				"resource"
+			],
+			[
+				"ke",
+				"keypress"
+			],
+			[
+				"pad",
+				"padding-top"
+			],
+			[
+				"colum",
+				"grid-column-gap"
+			],
+			[
+				"buttons",
+				"wp-block-buttons"
+			],
+			[
+				"setAtt",
+				"setAttribute"
+			],
+			[
+				"on",
+				"onChange"
+			],
+			[
+				"u",
+				"updateQuan"
+			],
+			[
+				"varia",
+				"variations"
+			],
+			[
+				"va",
+				"variation"
+			],
+			[
+				"type",
+				"typeObj"
+			],
+			[
+				"vari",
+				"variation"
+			],
+			[
+				"for",
+				"for\tfor (…) {…}"
+			],
+			[
+				"attr",
+				"attribute"
+			],
+			[
+				"par",
+				"parent"
+			],
+			[
+				"parent",
+				"parentElement"
+			],
+			[
+				"clas",
+				"className"
+			],
+			[
+				"cla",
+				"className"
+			],
+			[
+				"reso",
+				"resource"
+			],
+			[
+				"resou",
+				"resourcelist"
+			],
+			[
+				"r",
+				"resourcelist"
+			],
+			[
+				"pri",
+				"print_r()"
+			],
+			[
+				"produc",
+				"product_cat"
+			],
+			[
+				"print",
+				"print_r()"
+			],
+			[
+				"me",
+				"meta_query"
+			],
+			[
+				"d",
+				"displayType"
+			],
+			[
+				"ca",
+				"category"
+			],
+			[
+				"cate",
+				"categories"
+			],
+			[
+				"cur",
+				"current_day"
+			],
+			[
+				"clou",
+				"closure"
+			],
+			[
+				"wi",
+				"withImage"
+			],
+			[
+				"i",
+				"innerBlocks"
+			],
+			[
+				"blo",
+				"blockHasImage"
+			],
+			[
+				"block",
+				"blockHasImage"
+			],
+			[
+				"align",
+				"align-items"
+			],
+			[
+				"fo",
+				"font-weight"
+			],
+			[
+				"h",
+				"height"
+			],
+			[
+				"Inn",
+				"InnerBlocks"
+			],
+			[
+				"le",
+				"letter-spacing"
+			],
+			[
+				"hel",
+				"hero-block-wrap"
+			],
+			[
+				"wp",
+				"wp-button"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/jacoblang/Local Sites/slack-dusty-stick",
+		"/Users/jacoblang/Local Sites/slack-dusty-stick/slack-app",
+		"/Users/jacoblang/Local Sites/slack-dusty-stick/slack-app/test"
+	],
+	"file_history":
+	[
+		"/Users/jacoblang/Local Sites/slack-dusty-stick/slack-app/test/reactions.test.js",
+		"/Users/jacoblang/Local Sites/slack-dusty-stick/slack-app/wrangler.toml",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/inc/custom-endpoints.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/functions.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/inc/jetpack.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/inc/options.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/inc/template-functions.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/inc/shortcodes.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/woocommerce/cart/cart.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/woocommerce/single-product/related.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/woocommerce/taxonomy-product-cat-guided-tour.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/woocommerce/taxonomy-product-cat-self-guided-tours.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/woocommerce/content-single-product.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/self-tickets.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/category.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/inc/menu-functions.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/inc/woo-order-export.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/enfold-child/css/main.css",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks/sign-up/_style-block.scss",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/scss/_forms.scss",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-config.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/tickets.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/js/time.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/js/tickets.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-admin/import.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/components/Icons.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks/filter-resources/save.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks/filter-resources/edit.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks/filter-resources/frontend.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks/selected-collections/save.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/template-parts/content-collections.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks/collections/index.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks/collections/edit.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks/programs/edit.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks/programs/save.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks/programs/frontend.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks/selected-programs/edit.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/front-end.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks/index.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks/collections/frontend.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks/testimonials/save.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks/testimonials/testimonials.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks/image-swiper/edit.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks/selected-projects/frontend.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks/selected-projects/edit.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks/selected-projects/index.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks/text-cards-grid/edit.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks/header-intro/edit.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks/header-intro/save.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/blocks/columns-group/edit.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/woocommerce/archive-product.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/support/components/Padding.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/inc/custom-header.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/header.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-includes/class-wp-locale-switcher.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/footer.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/inc/posts.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/timeline/timeline.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/period/edit.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/scss/_variables.scss",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/js/navigation.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/plugins/mailpoet/vendor-prefixed/symfony/string/AbstractString.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/timeline/_style-block.scss",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/scss/_fonts.scss",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/stat-callout/index.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/shortcode-section/index.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/period/index.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/section-header/index.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/section/index.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/savings-form/index.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/savings-calculator/index.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/timeline/index.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/text-cards-grid/index.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/text-card/index.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/testimonials/index.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/scss/_navigation.scss",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/style.css",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/text-cards-grid/_style-block.scss",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/text-card/_style-block.scss",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/testimonials/_style-block.scss",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/contact/contact.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/js-compile/background.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/scss/_base.scss",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/columns-list/_style-block.scss",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/scss/_block-base.scss",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/columns-group/_style-block.scss",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/checklist/_style-block.scss",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/case-study/_style-block.scss",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/image-text-columns/_style-block.scss",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/timeline/edit.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/timeline/save.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/components/Content.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/stat-callout/save.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/title-image-cta/index.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/title-image-cta/save.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/title-image-cta/edit.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/scss/_swiper.scss",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/stat-callout/stat-callout.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/js-compile/swiper.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/selected-programs/save.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/selected-programs/frontend.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/period/save.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/selected-projects/frontend.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/selected-projects/save.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/text-card/edit.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/node_modules/swiper/swiper.cjs.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/selected-programs/index.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/faq/faq.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/filter-resources/index.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/filter-resources/edit.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/hero/index.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/selected-projects/index.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/event/frontend.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/progress-block/scroll-v2.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/hero/edit.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/front-end.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/components/Anchor.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks.php",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/components/Header.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/promo/edit.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/components/ColorSelector.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/images/save.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/images/index.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/images/edit.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/index.js",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/scss/style.scss",
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/scss/editor.scss"
+	],
+	"find":
+	{
+		"height": 24.0
+	},
+	"find_in_files":
+	{
+		"height": 101.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			":dusty_stick"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"scrollbar_highlights": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"use_gitignore": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 24.0
+	},
+	"input":
+	{
+		"height": 38.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "slack-dusty-stick.sublime-project",
+	"replace":
+	{
+		"height": 44.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"wr",
+				"slack-app/wrangler.toml"
+			],
+			[
+				"custom-end",
+				"app/public/wp-content/themes/AMWA-Theme/inc/custom-endpoints.php"
+			],
+			[
+				"function",
+				"app/public/wp-content/themes/AMWA-Theme/functions.php"
+			],
+			[
+				"_form",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_forms.scss"
+			],
+			[
+				"functions.php",
+				"app/public/wp-content/themes/AMWA-Theme/functions.php"
+			],
+			[
+				"functions",
+				"app/public/wp-content/themes/AMWA-Theme/functions.php"
+			],
+			[
+				"blocks.php",
+				"app/public/wp-content/themes/AMWA-Theme/support/blocks.php"
+			],
+			[
+				"custom-en",
+				"app/public/wp-content/themes/AMWA-Theme/inc/custom-endpoints.php"
+			],
+			[
+				"functio",
+				"app/public/wp-content/themes/AMWA-Theme/functions.php"
+			],
+			[
+				"head",
+				"app/public/wp-content/themes/AMWA-Theme/header.php"
+			],
+			[
+				"footer",
+				"app/public/wp-content/themes/AMWA-Theme/footer.php"
+			],
+			[
+				"_var",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_variables.scss"
+			],
+			[
+				"_font",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_fonts.scss"
+			],
+			[
+				"navi",
+				"app/public/wp-content/themes/AMWA-Theme/js/navigation.js"
+			],
+			[
+				"_nav",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_navigation.scss"
+			],
+			[
+				"_ba",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_base.scss"
+			],
+			[
+				"_bl",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_block-base.scss"
+			],
+			[
+				"_bloc",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_block-base.scss"
+			],
+			[
+				"_fo",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_fonts.scss"
+			],
+			[
+				"_fon",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_fonts.scss"
+			],
+			[
+				"_v",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_variables.scss"
+			],
+			[
+				"_swi",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_swiper.scss"
+			],
+			[
+				"swiper",
+				"app/public/wp-content/themes/AMWA-Theme/support/js-compile/swiper.js"
+			],
+			[
+				"swiper.js",
+				"app/public/wp-content/themes/AMWA-Theme/support/js-compile/swiper.js"
+			],
+			[
+				"ticket",
+				"app/public/wp-content/themes/AMWA-Theme/support/tickets.js"
+			],
+			[
+				"footer.php",
+				"app/public/wp-content/themes/AMWA-Theme/footer.php"
+			],
+			[
+				"_coll",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_collections.scss"
+			],
+			[
+				"_sw",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_swiper.scss"
+			],
+			[
+				"_bu",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_buttons.scss"
+			],
+			[
+				"_blo",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_block-base.scss"
+			],
+			[
+				"_col",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_collections.scss"
+			],
+			[
+				"media.php",
+				"app/public/wp-content/themes/AMWA-Theme/inc/media.php"
+			],
+			[
+				"_block",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_block-base.scss"
+			],
+			[
+				"_b",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_buttons.scss"
+			],
+			[
+				"_sin",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_single.scss"
+			],
+			[
+				"_w",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_woocommerce.scss"
+			],
+			[
+				"_woo",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_woocommerce.scss"
+			],
+			[
+				"_s",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_swiper.scss"
+			],
+			[
+				"_wo",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_woocommerce.scss"
+			],
+			[
+				"f",
+				"app/public/wp-includes/functions.php"
+			],
+			[
+				"fun",
+				"app/public/wp-includes/functions.php"
+			],
+			[
+				"funct",
+				"app/public/wp-content/themes/AMWA-Theme/functions.php"
+			],
+			[
+				"archive-product",
+				"app/public/wp-content/plugins/woocommerce/templates/archive-product.php"
+			],
+			[
+				"custom-",
+				"app/public/wp-content/themes/AMWA-Theme/inc/custom-endpoints.php"
+			],
+			[
+				"_for",
+				"app/public/wp-content/themes/AMWA-Theme/support/node_modules/bootstrap/scss/_forms.scss"
+			],
+			[
+				"_na",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_navigation.scss"
+			],
+			[
+				"_bas",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_base.scss"
+			],
+			[
+				"date",
+				"app/public/wp-includes/js/jquery/ui/datepicker.js"
+			],
+			[
+				"custom-e",
+				"app/public/wp-content/themes/AMWA-Theme/inc/custom-endpoints.php"
+			],
+			[
+				"_n",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_navigation.scss"
+			],
+			[
+				"_",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_buttons.scss"
+			],
+			[
+				"_va",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_variables.scss"
+			],
+			[
+				"buttons.sc",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_buttons.scss"
+			],
+			[
+				"functions.",
+				"app/public/wp-content/themes/AMWA-Theme/functions.php"
+			],
+			[
+				"face",
+				"app/public/wp-content/themes/AMWA-Theme/support/node_modules/@fortawesome/pro-regular-svg-icons/faCertificate.js"
+			],
+			[
+				"blocks.ph",
+				"app/public/wp-content/themes/AMWA-Theme/support/blocks.php"
+			],
+			[
+				"_butt",
+				"app/public/wp-content/themes/AMWA-Theme/support/node_modules/bootstrap/scss/_buttons.scss"
+			],
+			[
+				"navigat",
+				"app/public/wp-content/themes/AMWA-Theme/js/navigation.js"
+			],
+			[
+				"foo",
+				"app/public/wp-content/themes/AMWA-Theme/footer.php"
+			],
+			[
+				"_foo",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_footer.scss"
+			],
+			[
+				"search.js",
+				"app/public/wp-content/themes/AMWA-Theme/js/search.js"
+			],
+			[
+				"nav",
+				"app/public/wp-content/themes/AMWA-Theme/js/navigation.js"
+			],
+			[
+				"header",
+				"app/public/wp-content/themes/AMWA-Theme/header.php"
+			],
+			[
+				"header.php",
+				"app/public/wp-content/themes/AMWA-Theme/header.php"
+			],
+			[
+				"shor",
+				"app/public/wp-content/themes/AMWA-Theme/inc/shortcodes.php"
+			],
+			[
+				"navigation.js",
+				"app/public/wp-content/themes/AMWA-Theme/js/navigation.js"
+			],
+			[
+				"options.php",
+				"app/public/wp-content/themes/AMWA-Theme/inc/options.php"
+			],
+			[
+				"func",
+				"app/public/wp-includes/functions.php"
+			],
+			[
+				"header.",
+				"app/public/wp-content/themes/AMWA-Theme/header.php"
+			],
+			[
+				"_f",
+				"app/public/wp-content/themes/AMWA-Theme/support/scss/_fonts.scss"
+			],
+			[
+				"main.css",
+				"app/public/wp-content/themes/enfold-child/css/main.css"
+			],
+			[
+				"_style",
+				"app/public/wp-content/themes/agentsync.io/resources/assets/styles/common/_style.scss"
+			],
+			[
+				"layouts.app",
+				"app/public/wp-content/themes/agentsync.io/resources/views/layouts/app.blade.php"
+			],
+			[
+				"editor.sc",
+				"app/public/wp-content/themes/morgan-rosel/support/scss/editor.scss"
+			],
+			[
+				"_sing",
+				"app/public/wp-content/themes/morgan-rosel/support/scss/_single.scss"
+			],
+			[
+				"med",
+				"app/public/wp-content/themes/morgan-rosel/inc/media.php"
+			],
+			[
+				"medi",
+				"app/public/wp-content/themes/morgan-rosel/inc/media.php"
+			],
+			[
+				"Icons",
+				"app/public/wp-content/themes/morgan-rosel/support/components/Icons.js"
+			],
+			[
+				"webpac",
+				"app/public/wp-content/themes/morgan-rosel/support/webpack.config.js"
+			],
+			[
+				"swiper-bundle.min.css",
+				"app/public/wp-content/themes/morgan-rosel/support/node_modules/swiper/swiper-bundle.min.css"
+			],
+			[
+				"page",
+				"app/public/wp-content/themes/morgan-rosel/page.php"
+			],
+			[
+				"content",
+				"app/public/wp-content/themes/morgan-rosel/template-parts/content-whitepaper.php"
+			],
+			[
+				"content-whi",
+				"app/public/wp-content/themes/morgan-rosel/template-parts/content-whitepaper.php"
+			],
+			[
+				"footer-post",
+				"app/public/wp-content/themes/morgan-rosel/template-parts/footer-post.php"
+			],
+			[
+				"temp",
+				"app/public/wp-content/themes/morgan-rosel/inc/template-functions.php"
+			],
+			[
+				"media",
+				"app/public/wp-content/themes/morgan-rosel/inc/media.php"
+			],
+			[
+				"template-fun",
+				"app/public/wp-content/themes/morgan-rosel/inc/template-functions.php"
+			],
+			[
+				"cont",
+				"app/public/wp-content/themes/morgan-rosel/template-parts/content.php"
+			],
+			[
+				"content.php",
+				"app/public/wp-content/themes/morgan-rosel/template-parts/content.php"
+			],
+			[
+				"media.p",
+				"app/public/wp-content/themes/morgan-rosel/inc/media.php"
+			],
+			[
+				"_vr",
+				"app/public/wp-content/themes/concero-theme/support/blocks/scss/_variables.scss"
+			],
+			[
+				"_button",
+				"app/public/wp-content/themes/twentynineteen/sass/forms/_buttons.scss"
+			],
+			[
+				"he",
+				"app/public/wp-content/themes/concero-theme/header.php"
+			],
+			[
+				"_but",
+				"wp-content/themes/concero-theme/support/blocks/scss/_button.scss"
+			],
+			[
+				"arch",
+				"wp-content/themes/red-egg/app/Controllers/ArchiveCaseStudy.php"
+			],
+			[
+				"setup.php",
+				"wp-content/themes/red-egg/app/setup.php"
+			],
+			[
+				"social.bl",
+				"wp-content/themes/red-egg/resources/views/social.blade.php"
+			],
+			[
+				"filt",
+				"wp-content/themes/red-egg/app/filters.php"
+			],
+			[
+				"archive",
+				"wp-content/themes/red-egg/app/Controllers/ArchiveCaseStudy.php"
+			],
+			[
+				"archivecas",
+				"wp-content/themes/red-egg/app/Controllers/ArchiveCaseStudy.php"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 502.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/Local Sites/red-egg-update-2023/red-egg-2025.sublime-project"
+			],
+			[
+				"re",
+				"~/Local Sites/red-egg-update-2023/red-egg-2025.sublime-project"
+			],
+			[
+				"red",
+				"~/Local Sites/red-egg-update-2023/red-egg-2025.sublime-project"
+			],
+			[
+				"ddre",
+				"~/Local Sites/ddrc-clone/ddrc-cnew.sublime-project"
+			],
+			[
+				"dd",
+				"~/Local Sites/ddrc/ddrc.sublime-workspace"
+			],
+			[
+				"red-e",
+				"~/Local Sites/red-egg-production/red-egg-prod.sublime-workspace"
+			],
+			[
+				"basecamp",
+				"~/Local Sites/base-camp-cyclery-new/basecamp-2022.sublime-project"
+			],
+			[
+				"bas",
+				"~/Local Sites/base-camp-cyclery/basecamp.sublime-workspace"
+			],
+			[
+				"asp",
+				"~/Local Sites/aspire-denver/aspire-2023-final.sublime-project"
+			],
+			[
+				"us",
+				"~/Local Sites/us-legal-groups/us-legal-group.sublime-project"
+			],
+			[
+				"am",
+				"~/Local Sites/amwa-2025-site/amwa-2025-site.sublime-project"
+			],
+			[
+				"cen",
+				"~/Local Sites/centennial-leasing-and-sales-fort-collins/centennial-leasing-fort-collins.sublime-project"
+			],
+			[
+				"denv",
+				"~/Local Sites/cls-denver/app/public/wp-content/themes/cls-theme/denver-cls.sublime-workspace"
+			],
+			[
+				"denver",
+				"~/Local Sites/cls-denver/app/public/wp-content/themes/cls-theme/denver-cls.sublime-workspace"
+			],
+			[
+				"betto",
+				"~/Local Sites/bettor-wisdom-latest-version/bettor-wisdom.sublime-project"
+			],
+			[
+				"amw",
+				"~/Local Sites/amwa-2025/amwa-2025.sublime-workspace"
+			],
+			[
+				"conf",
+				"~/Local Sites/confluence-land-update/confluence-land.sublime-project"
+			],
+			[
+				"pa",
+				"~/Local Sites/paint-denver/paint-denver.sublime-project"
+			],
+			[
+				"pain",
+				"~/Local Sites/paint-denver/paint-denver.sublime-project"
+			],
+			[
+				"yo",
+				"~/Local Sites/yosi/yosi-health.sublime-project"
+			],
+			[
+				"denve",
+				"~/Local Sites/cls-denver/app/public/wp-content/themes/cls-theme/denver-cls.sublime-project"
+			],
+			[
+				"base",
+				"~/Local Sites/base-camp-new/basecamp-2023.sublime-project"
+			],
+			[
+				"nebr",
+				"~/Local Sites/nebraska-legal-group/nebraska-legal.sublime-project"
+			],
+			[
+				"ddd",
+				"~/Local Sites/ddrc/ddrc.sublime-project"
+			],
+			[
+				"bir",
+				"~/Local Sites/birdie-hr/birdie.sublime-project"
+			],
+			[
+				"bi",
+				"~/Local Sites/birdie-hr/birdie.sublime-project"
+			],
+			[
+				"hrbi",
+				"~/Local Sites/birdie-hr/birdie.sublime-project"
+			],
+			[
+				"ddr",
+				"~/Local Sites/ddrc/ddrc.sublime-project"
+			],
+			[
+				"new",
+				"~/Local Sites/nydivorce1/new-york-divorce-attorney.sublime-project"
+			],
+			[
+				"bb",
+				"~/Local Sites/bb-rv/b-and-b-rv.sublime-project"
+			],
+			[
+				"cent",
+				"~/Local Sites/centennial-leasing/centennial-leasing.sublime-project"
+			],
+			[
+				"h1",
+				"~/Local Sites/h1h2-capital/h1h2.sublime-project"
+			],
+			[
+				"pi",
+				"~/Local Sites/piper-electric/piper-electric.sublime-project"
+			],
+			[
+				"for",
+				"~/Local Sites/frost-fighter/frost-fighter.sublime-project"
+			],
+			[
+				"yos",
+				"~/Local Sites/yosi/yosi-health.sublime-project"
+			],
+			[
+				"y",
+				"~/Local Sites/yosi-duplicate/yosi-duplicate.sublime-project"
+			],
+			[
+				"p",
+				"~/Local Sites/piper-electric/piper-electric.sublime-project"
+			],
+			[
+				"bett",
+				"~/Local Sites/bettor-wisdom-latest-version/bettor-wisdom.sublime-project"
+			],
+			[
+				"ero",
+				"~/Local Sites/ero-resources/ero-resources.sublime-workspace"
+			],
+			[
+				"bet",
+				"~/Local Sites/bettor-wisdom/app/public/wp-content/themes/Bettor-Wisdom/bettor-wisdom.sublime-project"
+			],
+			[
+				"rar",
+				"~/Local Sites/rarewaters/rarewaters.sublime-workspace"
+			],
+			[
+				"pip",
+				"~/Local Sites/piper-electric/piper-electric.sublime-project"
+			],
+			[
+				"ra",
+				"~/Local Sites/clone-rarewaters/rarewaters.sublime-project"
+			],
+			[
+				"ag",
+				"~/Local Sites/agentsync/agent-sync.sublime-project"
+			],
+			[
+				"more",
+				"~/Local Sites/morgan-rosel/morgan-rosel-live.sublime-project"
+			],
+			[
+				"rede",
+				"~/Local Sites/red-egg-production/red-egg-prod.sublime-project"
+			],
+			[
+				"rare",
+				"~/Local Sites/clone-rarewaters/rarewaters.sublime-project"
+			],
+			[
+				"red-",
+				"~/Local Sites/red-egg-production/red-egg-prod.sublime-project"
+			],
+			[
+				"mor",
+				"~/Local Sites/morgan-rosel-v2/morgan-rosel.sublime-project"
+			],
+			[
+				"con",
+				"/Applications/MAMP/htdocs/concero/concero.sublime-project"
+			],
+			[
+				"r",
+				"/Applications/MAMP/htdocs/redegg/redd-egg.sublime-project"
+			],
+			[
+				"reg",
+				"~/Local Sites/red-egg-marketing/red-egg-marketing.sublime-workspace"
+			],
+			[
+				"rm",
+				"~/Local Sites/rmlefcu/rmlefcu.sublime-project"
+			],
+			[
+				"v",
+				"~/Local Sites/vdk-tools-clone/vdk-clone.sublime-project"
+			],
+			[
+				"emu",
+				"/Applications/MAMP/htdocs/emulate-bio/emulate.sublime-project"
+			],
+			[
+				"gl",
+				"/Applications/MAMP/htdocs/glance-networks-master/glance-master.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 436.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
