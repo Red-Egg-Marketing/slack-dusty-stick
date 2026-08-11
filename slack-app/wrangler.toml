@@ -15,7 +15,7 @@ directory = "./public"
 # Set it to wherever the game plugin actually lives (prod or staging).
 # ---------------------------------------------------------------------------
 [vars]
-GAME_API_BASE = "https://redeggmarketing.com"
+GAME_API_BASE = "https://redeggmark1dev.wpenginepowered.com"
 
 # Optional shared secret for the leaderboard endpoint. If you define a matching
 # token in the plugin (RED_EGG_GAME_API_TOKEN), set the SAME value here as a
