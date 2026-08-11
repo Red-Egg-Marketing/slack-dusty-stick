@@ -20,6 +20,7 @@ database server, no build step beyond Wrangler.
   dusty sticks collected (top = biggest offender).
 - **`/dustystick recent`** — the last 10 dustings.
 - **`/dustystick help`** (or empty/unknown) — usage help.
+- **`/dustystick shame`** THE biggest receiver of dusty sticks.
 - **`:dusty_stick:` reaction** — reacting with the custom `:dusty_stick:` emoji on any
   message awards a dusty stick to the message's author (the reactor is the giver). Each
   reacted-to message counts as a separate award (they stack). Removing the reaction
