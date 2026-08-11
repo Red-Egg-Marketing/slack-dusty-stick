@@ -18,6 +18,20 @@ directory = "./public"
 # ---------------------------------------------------------------------------
 [vars]
 HEYTACO_DAYS = "30"
+# /highscores config — the Red Egg arcade high-score board.
+#
+# GAME_API_BASE is the base URL of the WordPress site running the Red Egg Game
+# plugin. The Worker fetches <base>/wp-json/red-egg-game/v1/leaderboard from it.
+# Set it to wherever the game plugin actually lives (prod or staging).
+# ---------------------------------------------------------------------------
+[vars]
+GAME_API_BASE = "https://redeggmark1dev.wpenginepowered.com"
+
+# Optional shared secret for the leaderboard endpoint. If you define a matching
+# token in the plugin (RED_EGG_GAME_API_TOKEN), set the SAME value here as a
+# secret so the Worker sends it in the X-Red-Egg-Token header:
+#   npx wrangler secret put GAME_API_TOKEN
+# Leave both unset to keep the endpoint open (it only ever exposes name+score).
 
 # ---------------------------------------------------------------------------
 # Cloudflare D1 binding.
