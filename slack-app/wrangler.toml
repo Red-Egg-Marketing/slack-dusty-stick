@@ -2,6 +2,11 @@ name = "dusty-stick"
 main = "src/index.js"
 compatibility_date = "2024-11-01"
 
+
+# Static assets — serves ./public at the Worker's own hostname.
+[assets]
+directory = "./public"
+
 # ---------------------------------------------------------------------------
 # Cloudflare D1 binding.
 # Create the database once with:  npx wrangler d1 create dusty-stick
