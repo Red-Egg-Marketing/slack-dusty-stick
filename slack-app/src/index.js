@@ -194,7 +194,7 @@ async function shameResponse(env) {
   const top = rows[0];
   const loser = mentionOrName(top.receiver_id, top.receiver_name);
   const plainName = top.receiver_name || top.receiver_id;
-  const count = top.count;
+  const count = top.total;
 
   return jsonResponse({
     response_type: "in_channel",
@@ -214,8 +214,8 @@ async function shameResponse(env) {
         image_url: randomShameGif(),
         alt_text: "Shame, shame, shame",
       },
-      { type: "divider" },
-      ...leaderboardBlocks(rows, { header: false }),
+      // { type: "divider" },
+      // ...leaderboardBlocks(rows, { header: false }),
     ],
     text: `Wow, ${plainName} — maybe you should take a break from Slack.`,
   });
@@ -325,6 +325,7 @@ function helpResponse() {
             "",
             "• `/dustystick @person <reason>` — give someone a dusty stick",
             "• `/dustystick leaderboard` — the hall of shame (who's collected the most)",
+            "• `/dustystick shame` — the one person who currently has the most",
             "• `/dustystick recent` — the last 10 dustings",
             "• `/dustystick joinall` — add the bot to all public channels",
             "• `/dustystick help` — show this message",
