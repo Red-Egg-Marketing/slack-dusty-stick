@@ -11,6 +11,8 @@ import {
   getWorkspaceMembers,
   buildInverseBoard,
   inverseTacoBlocks,
+  NO_TACO_SLOGANS,
+  randomSlogan,
 } from "../src/notacos.js";
 
 function okJson(body) {
@@ -146,6 +148,27 @@ async function run() {
   {
     const blocks = inverseTacoBlocks([], 0);
     assert.ok(JSON.stringify(blocks).includes("not a clean plate in sight"));
+  }
+
+  // --- slogans: picker returns a member; a passed slogan renders in context.
+  {
+    assert.ok(NO_TACO_SLOGANS.length > 0, "there are slogans");
+    for (let i = 0; i < 50; i++) {
+      assert.ok(
+        NO_TACO_SLOGANS.includes(randomSlogan()),
+        "randomSlogan always returns a defined slogan"
+      );
+    }
+    const blocks = inverseTacoBlocks(
+      [{ id: "U1", name: "Alice", count: 0 }],
+      0,
+      "Real work doesn't come with tacos."
+    );
+    const context = blocks.find((b) => b.type === "context");
+    assert.ok(
+      context.elements[0].text.includes("Real work doesn't come with tacos."),
+      "the supplied slogan renders in the context line"
+    );
   }
 
   console.log("notacos.test.js: all assertions passed ✅");

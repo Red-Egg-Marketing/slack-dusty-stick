@@ -26,6 +26,33 @@ const DEFAULT_DAYS = 30;
 const DEFAULT_LIMIT = 15;
 
 /**
+ * Proud, tongue-in-cheek slogans for the No-Taco Club — the folks too busy
+ * doing real work (talking to actual humans, managing, shipping) to bother
+ * collecting shiny trinkets. One is picked at random for each board.
+ */
+export const NO_TACO_SLOGANS = [
+  "Too busy talking to actual humans to chase tacos.",
+  "Out here managing while everyone else collects trinkets.",
+  "Real work doesn't come with tacos.",
+  "Someone's gotta run the place while the tacos fly.",
+  "Shiny trinkets are for people with spare time.",
+  "Leading meetings, not leaderboards.",
+  "On client calls, not collecting condiments.",
+  "Zero tacos, infinite responsibilities.",
+  "You give tacos. We give results.",
+  "Hands too full of real work to catch a taco.",
+  "Too deep in the work to notice the taco economy.",
+  "Managing humans, not farming tacos.",
+  "Fueled by deadlines, not tacos.",
+  "The grown-ups' table doesn't hand out tacos.",
+];
+
+/** Pick a random No-Taco Club slogan. */
+export function randomSlogan() {
+  return NO_TACO_SLOGANS[Math.floor(Math.random() * NO_TACO_SLOGANS.length)];
+}
+
+/**
  * Fetch tacos-received counts from HeyTaco. Returns a Map of
  * slackUserId → count (integer). Throws on missing config / HTTP / shape errors.
  */
@@ -127,7 +154,7 @@ export function buildInverseBoard(members, counts, limit = DEFAULT_LIMIT) {
  * <@mention> tokens — on purpose, so running the command doesn't ping the
  * people it lists. `:taco:` is a standard emoji and renders in mrkdwn.
  */
-export function inverseTacoBlocks(rows, extraZeros = 0) {
+export function inverseTacoBlocks(rows, extraZeros = 0, slogan = randomSlogan()) {
   const blocks = [
     {
       type: "header",
@@ -138,7 +165,7 @@ export function inverseTacoBlocks(rows, extraZeros = 0) {
       elements: [
         {
           type: "mrkdwn",
-          text: ":taco: Fewest tacos received — a spotless, taco-free record",
+          text: `:taco: _${escapeSlackText(slogan)}_`,
         },
       ],
     },

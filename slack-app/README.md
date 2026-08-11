@@ -70,6 +70,9 @@ never appear there. So we can't drive off taco data alone: we pull the Slack mem
 
 **Behaviour / notes:**
 
+- Each board shows a random tongue-in-cheek slogan (from `NO_TACO_SLOGANS` in `notacos.js`)
+  framing the no-taco crowd as the ones too busy doing real work to chase trinkets. Add or
+  edit slogans freely — it's just an array.
 - Names are rendered as plain text, **not `<@mention>` tokens**, so running the command
   never pings the people it lists.
 - The board is capped at 15; if more people are tied at 0, a "…and N more with a spotless
