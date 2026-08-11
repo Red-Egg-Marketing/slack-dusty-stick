@@ -406,9 +406,9 @@ const REACTION_EMOJI = "dusty_stick";
 
 // Publicly reachable .gif URLs — Slack fetches these server-side.
 const SHAME_GIFS = [
-  "https://dusty-stick.web-026.workers.dev/img/shame-1.gif",
-  "https://dusty-stick.web-026.workers.dev/img/shame-2.gif",
-  "https://dusty-stick.web-026.workers.dev/img/shame-3.gif",
+  "https://dusty-stick.web-026.workers.dev/imgs/shame-1.gif",
+  "https://dusty-stick.web-026.workers.dev/imgs/shame-2.gif",
+  "https://dusty-stick.web-026.workers.dev/imgs/shame-3.gif",
 ];
 
 /** Pick a random shame gif. */
