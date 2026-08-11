@@ -5,7 +5,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node test/reactions.test.js && node test/joinall.test.js",
+    "test": "node test/reactions.test.js && node test/joinall.test.js && node test/game.test.js",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "db:init": "wrangler d1 execute dusty-stick --file=./schema.sql --remote",

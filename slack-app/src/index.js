@@ -32,6 +32,7 @@ import {
   leaderboardBlocks,
   mentionOrName,
 } from "./format.js";
+import { getGameLeaderboard, gameLeaderboardBlocks } from "./game.js";
 
 export default {
   async fetch(request, env, ctx) {
@@ -89,6 +90,14 @@ export default {
 // ---------------------------------------------------------------------------
 
 async function handleSlashCommand(form, env, ctx) {
+  // Dedicated /highscores command → the Red Egg arcade high-score board.
+  // This is a wholly separate feature from the Dusty Stick awards (different
+  // data source — the WordPress game plugin over HTTP, not D1). Both slash
+  // commands point at this same Worker URL and are told apart by form.command.
+  if ((form.command || "").toLowerCase() === "/highscores") {
+    return await highScoresResponse(form, env);
+  }
+
   const text = (form.text || "").trim();
   const giverId = form.user_id || "";
   const giverName = form.user_name || "someone";
@@ -127,6 +136,67 @@ async function handleSlashCommand(form, env, ctx) {
 }
 
 
+
+// ---------------------------------------------------------------------------
+// /highscores — Red Egg arcade high-score board
+// ---------------------------------------------------------------------------
+
+/**
+ * Handle the /highscores slash command. Fetches the top scores from the
+ * WordPress game plugin and posts them to the channel as a Block Kit board.
+ * `/highscores help` shows usage. Any failure falls back to a friendly
+ * ephemeral message (the underlying error is logged for the operator).
+ */
+async function highScoresResponse(form, env) {
+  const text = (form.text || "").trim().toLowerCase();
+
+  if (text === "help") {
+    return jsonResponse(highScoresHelp());
+  }
+
+  try {
+    const rows = await getGameLeaderboard(env, 10);
+    return jsonResponse({
+      response_type: "in_channel",
+      blocks: gameLeaderboardBlocks(rows),
+      text: ":fire: Red Egg High Scores",
+    });
+  } catch (err) {
+    console.error(
+      "highscores failed:",
+      err && err.stack ? err.stack : err
+    );
+    return jsonResponse({
+      response_type: "ephemeral",
+      text: "😵 Couldn't reach the high-score board right now. Try again in a moment.",
+    });
+  }
+}
+
+function highScoresHelp() {
+  return {
+    response_type: "ephemeral",
+    blocks: [
+      {
+        type: "header",
+        text: { type: "plain_text", text: "Red Egg High Scores", emoji: true },
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: [
+            ":video_game: The Red Egg arcade high-score board.",
+            "",
+            "• `/highscores` — show the top 10 scores",
+            "• `/highscores help` — show this message",
+          ].join("\n"),
+        },
+      },
+    ],
+    text: "Red Egg High Scores help",
+  };
+}
 
 /**
  * Parse and record an award. The text should look like:
