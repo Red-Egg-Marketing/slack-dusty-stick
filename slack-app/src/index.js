@@ -32,6 +32,12 @@ import {
   leaderboardBlocks,
   mentionOrName,
 } from "./format.js";
+import {
+  getTacoCounts,
+  getWorkspaceMembers,
+  buildInverseBoard,
+  inverseTacoBlocks,
+} from "./notacos.js";
 
 export default {
   async fetch(request, env, ctx) {
@@ -89,6 +95,13 @@ export default {
 // ---------------------------------------------------------------------------
 
 async function handleSlashCommand(form, env, ctx) {
+  // Dedicated /notacos command → the inverse HeyTaco board (the No-Taco Club).
+  // Separate feature from the Dusty Stick awards; see notacos.js. Both slash
+  // commands point at this same Worker URL, told apart by form.command.
+  if ((form.command || "").toLowerCase() === "/notacos") {
+    return noTacosResponse(form, env, ctx);
+  }
+
   const text = (form.text || "").trim();
   const giverId = form.user_id || "";
   const giverName = form.user_name || "someone";
@@ -127,6 +140,87 @@ async function handleSlashCommand(form, env, ctx) {
 }
 
 
+
+// ---------------------------------------------------------------------------
+// /notacos — the No-Taco Club (inverse HeyTaco leaderboard)
+// ---------------------------------------------------------------------------
+
+/**
+ * Handle /notacos. Building the board needs a HeyTaco fetch plus a (possibly
+ * paginated) Slack users.list, which can approach Slack's 3-second slash
+ * window — so we ACK immediately with an ephemeral "counting…" and post the
+ * finished board in-channel via the slash command's response_url (same
+ * deferred pattern as joinall). `/notacos help` shows usage.
+ */
+function noTacosResponse(form, env, ctx) {
+  const text = (form.text || "").trim().toLowerCase();
+  if (text === "help") {
+    return jsonResponse(noTacosHelp());
+  }
+
+  const responseUrl = form.response_url || null;
+  const days = Number(env.HEYTACO_DAYS) || undefined; // undefined → module default (30)
+
+  runInBackground(
+    ctx,
+    (async () => {
+      try {
+        // Fetch both sources in parallel; join happens locally.
+        const [counts, members] = await Promise.all([
+          getTacoCounts(env, days),
+          getWorkspaceMembers(env),
+        ]);
+        const { rows, extraZeros } = buildInverseBoard(members, counts, 15);
+        await postToResponseUrl(responseUrl, {
+          response_type: "in_channel",
+          blocks: inverseTacoBlocks(rows, extraZeros),
+          text: "The No-Taco Club",
+        });
+      } catch (err) {
+        console.error(
+          "notacos failed:",
+          err && err.stack ? err.stack : err
+        );
+        await postToResponseUrl(responseUrl, {
+          response_type: "ephemeral",
+          text: "😵 Couldn't build the No-Taco Club right now. Check HEYTACO_TEAM_ID and the Worker logs.",
+        });
+      }
+    })()
+  );
+
+  return jsonResponse({
+    response_type: "ephemeral",
+    text: "Counting clean plates… :taco:",
+  });
+}
+
+function noTacosHelp() {
+  return {
+    response_type: "ephemeral",
+    blocks: [
+      {
+        type: "header",
+        text: { type: "plain_text", text: "The No-Taco Club", emoji: true },
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: [
+            ":taco: The inverse leaderboard — who's received the *fewest* tacos.",
+            "",
+            "• `/notacos` — show the clean-plate board",
+            "• `/notacos help` — show this message",
+            "",
+            "_Names are listed without @-mentions, so nobody gets pinged._",
+          ].join("\n"),
+        },
+      },
+    ],
+    text: "The No-Taco Club help",
+  };
+}
 
 /**
  * Parse and record an award. The text should look like:

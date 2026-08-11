@@ -8,6 +8,18 @@ compatibility_date = "2024-11-01"
 directory = "./public"
 
 # ---------------------------------------------------------------------------
+# /notacos config — the No-Taco Club (inverse HeyTaco leaderboard).
+#
+# HEYTACO_DAYS is the leaderboard window in days (default 30 if unset). The
+# HeyTaco team id is a credential and is set as a SECRET, not here:
+#   npx wrangler secret put HEYTACO_TEAM_ID
+# (Find the team id signed into HeyTaco. Also requires the bot's users:read
+# scope, which the app already has, for the workspace roster.)
+# ---------------------------------------------------------------------------
+[vars]
+HEYTACO_DAYS = "30"
+
+# ---------------------------------------------------------------------------
 # Cloudflare D1 binding.
 # Create the database once with:  npx wrangler d1 create dusty-stick
 # Then paste the returned "database_id" value below (replace the placeholder).

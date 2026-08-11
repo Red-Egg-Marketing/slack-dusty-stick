@@ -27,6 +27,10 @@ database server, no build step beyond Wrangler.
   revokes that award. You can't award yourself (a reaction on your own message is ignored).
 - **App Home tab** — shows the leaderboard plus a short "how to use" section, refreshed
   each time someone opens the app's Home tab.
+- **`/notacos`** — the **No-Taco Club**: an inverse [HeyTaco](https://heytaco.com)
+  leaderboard ranking who's received the *fewest* tacos (a tongue-in-cheek clean-plate hall
+  of fame). Unrelated to the Dusty Stick awards — see
+  [The No-Taco Club](#the-no-taco-club-notacos) below.
 - **`/dustystick joinall`** — adds the bot to every public channel so it can see
   `:dusty_stick:` reactions there. Slack only delivers reaction events for channels the
   bot is a member of, so this is a one-time backfill; run it once after installing. It's
@@ -34,6 +38,51 @@ database server, no build step beyond Wrangler.
   channel" notice in each channel it joins. New public channels are joined automatically
   going forward (via the `channel_created` event). **Private** channels still need a manual
   `/invite @Dusty Stick Awards` — bots cannot self-join private channels.
+
+## The No-Taco Club (`/notacos`)
+
+A second, independent feature on the same Worker: an **inverse** leaderboard for
+[HeyTaco](https://heytaco.com). Tacos are normally kudos, so ranking who's received the
+*fewest* is a tongue-in-cheek clean-plate hall of fame. No D1 — the data comes from
+HeyTaco and Slack, joined at request time.
+
+**Why it needs the roster.** HeyTaco's leaderboard API only returns people who've received
+at least one taco — but the whole point of this board is the folks sitting at **zero**, who
+never appear there. So we can't drive off taco data alone: we pull the Slack member roster
+(`users.list`) and treat anyone absent from HeyTaco's response as 0, then sort ascending.
+
+```
+/notacos ─▶ Worker ─┬─▶ GET heytaco.chat/api/v1/json/leaderboard/{team}?days=N   (tacos received)
+                    └─▶ Slack users.list                                          (the roster)
+                       └─▶ join (missing = 0) ─▶ sort fewest-first ─▶ Block Kit board in-channel
+```
+
+**Config:**
+
+- **`HEYTACO_TEAM_ID`** (secret, required) — your HeyTaco team id (find it signed into
+  HeyTaco). It's the access key for the leaderboard URL, so it's set as a **secret**, not a
+  var: `npx wrangler secret put HEYTACO_TEAM_ID`.
+- **`HEYTACO_DAYS`** (var, optional) — leaderboard window in days, default `30`. HeyTaco's
+  API is time-windowed; `days=30` is a safe monthly window. If you want a longer/"all-time"
+  window, bump this — confirm the value the API accepts for your account.
+- Requires the bot's **`users:read`** scope for `users.list` — already in the app's scopes,
+  so **no reinstall** is needed.
+
+**Behaviour / notes:**
+
+- Names are rendered as plain text, **not `<@mention>` tokens**, so running the command
+  never pings the people it lists.
+- The board is capped at 15; if more people are tied at 0, a "…and N more with a spotless
+  0 🌮" line is appended.
+- Building the board makes two external calls (HeyTaco + a possibly-paginated `users.list`),
+  which can approach Slack's 3-second window — so `/notacos` ACKs immediately with an
+  ephemeral "counting…" and posts the finished board **in-channel** via the slash command's
+  `response_url` (the same deferred pattern as `joinall`).
+- `count` from HeyTaco is tacos **received**. The HeyTaco API has a ~5-minute cache, so the
+  board can lag live taco-giving by a few minutes.
+
+> **Requires HeyTaco.** If `HEYTACO_TEAM_ID` is unset or the API is unreachable, `/notacos`
+> replies with a friendly ephemeral error and logs the cause.
 
 ## Architecture at a glance
 
@@ -123,6 +172,10 @@ features:
       usage_hint: "@person <reason>  |  leaderboard  |  recent  |  help"
       # IMPORTANT: this must be true so Slack sends <@U123|name> mention tokens.
       should_escape: true
+    - command: /notacos
+      url: https://YOUR-WORKER-URL.workers.dev/
+      description: The No-Taco Club — who's received the fewest tacos
+      usage_hint: "(no args)  |  help"
 oauth_config:
   scopes:
     bot:
@@ -217,6 +270,10 @@ Wrangler prints your Worker URL (e.g. `https://dusty-stick.<subdomain>.workers.d
   permalink). Remove the reaction → award revoked. Reacting on your own message does
   nothing.
 - Open the app's **Home** tab → leaderboard + how-to.
+- `/notacos` → the No-Taco Club (needs `HEYTACO_TEAM_ID` set). Adding this slash command
+  does **not** require an app reinstall — it uses the existing `commands` + `users:read`
+  scopes; just add the command in the Slack app config (or via the manifest) pointing at
+  the same Worker URL.
 
 ---
 
@@ -241,12 +298,15 @@ slack-app/
 ├── migrations/
 │   └── 0001_add_reaction_support.sql  # ALTER TABLE for DBs created pre-reactions
 ├── test/
-│   └── reactions.test.js               # functional test for reaction add/remove
+│   ├── reactions.test.js               # functional test for reaction add/remove
+│   ├── joinall.test.js                 # functional test for the joinall channel loop
+│   └── notacos.test.js                 # functional test for /notacos fetch/join/render
 └── src/
     ├── index.js        # entry point: routing, slash commands, events, reactions, App Home
     ├── verify.js       # Slack request signature verification (HMAC-SHA256)
     ├── db.js           # D1 queries (insert / delete reaction / leaderboard / recent)
-    └── format.js       # escaping, relative time, Block Kit builders
+    ├── format.js       # escaping, relative time, Block Kit builders
+    └── notacos.js      # /notacos: HeyTaco counts + Slack roster join + inverse board
 ```
 
 ## Notes / caveats
