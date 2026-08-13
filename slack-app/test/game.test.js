@@ -44,6 +44,10 @@ async function run() {
       "builds the endpoint URL and strips the trailing slash on the base"
     );
     assert.equal(sentHeaders.Accept, "application/json");
+    assert.ok(
+      /Mozilla\/5\.0/.test(sentHeaders["User-Agent"] || ""),
+      "sends a browser-like User-Agent to get past WAF bot rules"
+    );
     assert.ok(!("X-Red-Egg-Token" in sentHeaders), "no token header when unset");
     assert.deepEqual(rows, [
       { name: "Jacob", score: 4200 },

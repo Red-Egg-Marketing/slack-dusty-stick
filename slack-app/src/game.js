@@ -32,7 +32,17 @@ export async function getGameLeaderboard(env, limit = DEFAULT_LIMIT) {
   const n = Number.isFinite(limit) && limit > 0 ? Math.min(Math.floor(limit), 50) : DEFAULT_LIMIT;
   const url = `${base}${REST_PATH}?limit=${encodeURIComponent(n)}`;
 
-  const headers = { Accept: "application/json" };
+  // WP hosts (WP Engine, Sucuri, Cloudflare Bot Fight, etc.) routinely 403
+  // server-to-server requests that arrive from datacenter IPs with a blank or
+  // bot-looking User-Agent. Present a normal browser UA so the leaderboard
+  // fetch isn't mistaken for a scraper. (If the host blocks by IP regardless,
+  // use the shared-token path + a WAF allow rule instead — see README.)
+  const headers = {
+    Accept: "application/json",
+    "User-Agent":
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 " +
+      "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+  };
   if (env.GAME_API_TOKEN) {
     headers["X-Red-Egg-Token"] = env.GAME_API_TOKEN;
   }
