@@ -25,6 +25,7 @@ import {
   deleteReactionAward,
   getLeaderboard,
   getRecent,
+  getWeeklyCounts,
 } from "./db.js";
 import {
   escapeSlackText,
@@ -32,8 +33,22 @@ import {
   leaderboardBlocks,
   mentionOrName,
 } from "./format.js";
+import {
+  weekWindowStart,
+  pickWinners,
+  weeklyWinnerBlocks,
+  weeklyWinnerText,
+  weeklyEmptyBlocks,
+} from "./weekly.js";
 
 export default {
+  // Cron trigger (see wrangler.toml [triggers]). Posts the weekly
+  // "Dusty Stick of the Week" winner + prize to WEEKLY_CHANNEL. Stays silent
+  // if the channel isn't configured or nobody earned one that week.
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(runWeeklyAward(env));
+  },
+
   async fetch(request, env, ctx) {
     if (request.method !== "POST") {
       return new Response("Dusty Stick Awards Worker is running. POST only.", {
@@ -114,6 +129,11 @@ async function handleSlashCommand(form, env, ctx) {
 
     case "recent":
       return await recentResponse(env);
+
+    case "weekly":
+    case "prize":
+    case "winner":
+      return await weeklyResponse(env);
 
     case "joinall":
     case "join":
@@ -231,6 +251,77 @@ async function leaderboardResponse(env) {
   });
 }
 
+// ---------------------------------------------------------------------------
+// Dusty Stick of the Week (on-demand command + weekly cron)
+// ---------------------------------------------------------------------------
+
+/** `/dustystick weekly` — this week's winner(s) + prize, on demand. */
+async function weeklyResponse(env) {
+  const days = Number(env.WEEKLY_WINDOW_DAYS) || 7;
+  const since = weekWindowStart(Date.now(), days);
+  const rows = await getWeeklyCounts(env.DB, since);
+  const { winners, total } = pickWinners(rows);
+
+  if (!winners.length) {
+    return jsonResponse({
+      response_type: "in_channel",
+      blocks: weeklyEmptyBlocks(),
+      text: "No Dusty Sticks this week — nobody wins the prize (which was nothing anyway).",
+    });
+  }
+
+  return jsonResponse({
+    response_type: "in_channel",
+    blocks: weeklyWinnerBlocks(winners, total),
+    text: weeklyWinnerText(winners, total),
+  });
+}
+
+/**
+ * Cron entry point: compute the week's winner and post the prize to
+ * WEEKLY_CHANNEL. Silent no-op when the channel isn't set or the week was
+ * clean (so quiet weeks don't spam the channel).
+ */
+async function runWeeklyAward(env) {
+  const channel = env.WEEKLY_CHANNEL;
+  if (!channel) {
+    console.log("weekly award: WEEKLY_CHANNEL not set; skipping.");
+    return;
+  }
+
+  const days = Number(env.WEEKLY_WINDOW_DAYS) || 7;
+  const since = weekWindowStart(Date.now(), days);
+  const rows = await getWeeklyCounts(env.DB, since);
+  const { winners, total } = pickWinners(rows);
+
+  if (!winners.length) {
+    console.log("weekly award: clean week, nothing to announce.");
+    return;
+  }
+
+  await postMessage(env, channel, {
+    blocks: weeklyWinnerBlocks(winners, total),
+    text: weeklyWinnerText(winners, total),
+  });
+}
+
+/** Post a message to a channel via chat.postMessage (bot must be a member). */
+async function postMessage(env, channel, message) {
+  const res = await fetch("https://slack.com/api/chat.postMessage", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      Authorization: `Bearer ${env.SLACK_BOT_TOKEN}`,
+    },
+    body: JSON.stringify({ channel, ...message }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!data.ok) {
+    console.error("chat.postMessage failed:", JSON.stringify(data));
+  }
+  return data;
+}
+
 async function recentResponse(env) {
   const rows = await getRecent(env.DB, 10);
 
@@ -327,6 +418,7 @@ function helpResponse() {
             "• `/dustystick leaderboard` — the hall of shame (who's collected the most)",
             "• `/dustystick shame` — the one person who currently has the most",
             "• `/dustystick recent` — the last 10 dustings",
+            "• `/dustystick weekly` — this week's (dis)honoree and their prize",
             "• `/dustystick joinall` — add the bot to all public channels",
             "• `/dustystick help` — show this message",
             "",
@@ -681,6 +773,7 @@ async function publishHome(userId, env) {
           "• `/dustystick @person <reason>` — give someone a Dusty Stick when they earn an L :dusty_stick:",
           "• `/dustystick leaderboard` — the full hall of shame",
           "• `/dustystick recent` — the latest dustings",
+          "• `/dustystick weekly` — this week's (dis)honoree and their prize",
         ].join("\n"),
       },
     },

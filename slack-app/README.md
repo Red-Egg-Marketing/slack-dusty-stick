@@ -34,6 +34,37 @@ database server, no build step beyond Wrangler.
   channel" notice in each channel it joins. New public channels are joined automatically
   going forward (via the `channel_created` event). **Private** channels still need a manual
   `/invite @Dusty Stick Awards` — bots cannot self-join private channels.
+- **`/dustystick weekly`** — the **Dusty Stick of the Week**: whoever collected the most
+  dusty sticks over the look-back window (a dishonor), plus a Lionel-Hutz-grade "prize" that
+  reads like a reward and means nothing. Also posts automatically on a weekly cron — see
+  [Dusty Stick of the Week](#dusty-stick-of-the-week) below.
+
+## Dusty Stick of the Week
+
+Whoever accumulates the most dusty sticks in the trailing window "wins" the week and gets
+publicly (dis)honored with a prize. The prize copy is deliberately worthless — *"Works on
+contingency? No, money down!"* — drawn at random from `WEEKLY_PRIZES` in `weekly.js` (edit
+that array freely). Ties all win; winners are @-mentioned (the ribbing is the point).
+
+It runs two ways:
+
+- **On demand:** `/dustystick weekly` (aliases `prize`, `winner`) posts the current standings
+  and prize in-channel. On a clean week it says the prize went unclaimed.
+- **On a schedule:** a Cloudflare cron (`[triggers]` in `wrangler.toml`, default Fridays
+  22:00 UTC ≈ 4pm Denver) posts the winner to `WEEKLY_CHANNEL`. On a clean week the cron
+  stays silent so it doesn't spam the channel.
+
+**Config:**
+
+- **`WEEKLY_CHANNEL`** (var) — channel ID to post the weekly announcement in (e.g.
+  `C0123456789`). The bot must be a member (invite it or run `/dustystick joinall`).
+  **Left blank, the cron posts nothing** — so the feature ships dormant; the on-demand
+  command still works regardless.
+- **`WEEKLY_WINDOW_DAYS`** (var) — trailing window for "this week", default `7`.
+- **Cron schedule** — edit `crons` under `[triggers]`. Times are UTC.
+
+The window is a trailing N days from run time (not a fixed Mon–Sun calendar week), which keeps
+it timezone-agnostic. `chat.postMessage` reuses the existing `SLACK_BOT_TOKEN` — no new scope.
 
 ## Architecture at a glance
 
@@ -241,12 +272,14 @@ slack-app/
 ├── migrations/
 │   └── 0001_add_reaction_support.sql  # ALTER TABLE for DBs created pre-reactions
 ├── test/
-│   └── reactions.test.js               # functional test for reaction add/remove
+│   ├── reactions.test.js               # functional test for reaction add/remove
+│   └── weekly.test.js                  # functional test for the weekly winner + prize
 └── src/
     ├── index.js        # entry point: routing, slash commands, events, reactions, App Home
     ├── verify.js       # Slack request signature verification (HMAC-SHA256)
-    ├── db.js           # D1 queries (insert / delete reaction / leaderboard / recent)
-    └── format.js       # escaping, relative time, Block Kit builders
+    ├── db.js           # D1 queries (insert / delete reaction / leaderboard / recent / weekly)
+    ├── format.js       # escaping, relative time, Block Kit builders
+    └── weekly.js       # Dusty Stick of the Week: window, winners, prizes, blocks
 ```
 
 ## Notes / caveats

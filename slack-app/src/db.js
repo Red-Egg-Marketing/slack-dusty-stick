@@ -99,3 +99,24 @@ export async function getRecent(db, limit = 10) {
     .all();
   return results || [];
 }
+
+/**
+ * Weekly tally: receivers ranked by awards received since `sinceMs` (unix epoch
+ * ms), most first. Used for the "Dusty Stick of the Week" prize. Returns the
+ * same shape as getLeaderboard: { receiver_id, receiver_name, total }.
+ */
+export async function getWeeklyCounts(db, sinceMs) {
+  const { results } = await db
+    .prepare(
+      `SELECT receiver_id,
+              receiver_name,
+              COUNT(*) AS total
+         FROM awards
+        WHERE created_at >= ?
+        GROUP BY receiver_id
+        ORDER BY total DESC, MAX(created_at) DESC`
+    )
+    .bind(sinceMs)
+    .all();
+  return results || [];
+}

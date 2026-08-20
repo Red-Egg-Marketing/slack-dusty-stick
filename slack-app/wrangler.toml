@@ -8,6 +8,24 @@ compatibility_date = "2024-11-01"
 directory = "./public"
 
 # ---------------------------------------------------------------------------
+# Dusty Stick of the Week — /dustystick weekly + the weekly cron post.
+#
+# WEEKLY_CHANNEL    the channel ID to post the weekly winner in (e.g.
+#                   "C0123456789"). The bot must be a member — invite it or run
+#                   /dustystick joinall. LEFT BLANK = cron stays silent (the
+#                   on-demand /dustystick weekly command still works).
+# WEEKLY_WINDOW_DAYS look-back window for "this week" (default 7).
+# ---------------------------------------------------------------------------
+[vars]
+WEEKLY_CHANNEL = ""
+WEEKLY_WINDOW_DAYS = "7"
+
+# Cron for the weekly announcement. Times are UTC. Default = Fridays 22:00 UTC
+# (4pm Denver during MDT, 3pm during MST). Change the day/time to taste.
+[triggers]
+crons = ["0 22 * * 5"]
+
+# ---------------------------------------------------------------------------
 # Cloudflare D1 binding.
 # Create the database once with:  npx wrangler d1 create dusty-stick
 # Then paste the returned "database_id" value below (replace the placeholder).
