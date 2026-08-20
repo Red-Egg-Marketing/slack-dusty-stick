@@ -17,7 +17,7 @@ directory = "./public"
 # WEEKLY_WINDOW_DAYS look-back window for "this week" (default 7).
 # ---------------------------------------------------------------------------
 [vars]
-WEEKLY_CHANNEL = ""
+WEEKLY_CHANNEL = "C01052G0JTZ"
 WEEKLY_WINDOW_DAYS = "7"
 
 # Cron for the weekly announcement. Times are UTC. Default = Fridays 22:00 UTC

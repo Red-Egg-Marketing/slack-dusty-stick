@@ -519,6 +519,17 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "slack-app/wrangler.toml",
+			"file_size": 2022,
+			"file_write_time": 134317323246854834,
+			"settings":
+			{
+				"buffer_size": 2010,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -554,12 +565,23 @@
 	[
 		"/Users/jacoblang/Local Sites/slack-dusty-stick",
 		"/Users/jacoblang/Local Sites/slack-dusty-stick/slack-app",
-		"/Users/jacoblang/Local Sites/slack-dusty-stick/slack-app/test"
+		"/Users/jacoblang/Local Sites/slack-dusty-stick/slack-app/src"
 	],
 	"file_history":
 	[
-		"/Users/jacoblang/Local Sites/slack-dusty-stick/slack-app/test/reactions.test.js",
+		"/Users/jacoblang/Local Sites/slack-dusty-stick/slack-app/src/weekly.js",
 		"/Users/jacoblang/Local Sites/slack-dusty-stick/slack-app/wrangler.toml",
+		"/Users/jacoblang/Local Sites/slack-dusty-stick/slack-app/package.json",
+		"/Users/jacoblang/Local Sites/slack-dusty-stick/slack-app/README.md",
+		"/Users/jacoblang/Local Sites/slack-dusty-stick/README.md",
+		"/Users/jacoblang/Local Sites/slack-dusty-stick/slack-app/src/game.js",
+		"/Users/jacoblang/Local Sites/slack-dusty-stick/slack-app/src/index.js",
+		"/Users/jacoblang/Local Sites/slack-dusty-stick/slack-app/src/verify.js",
+		"/Users/jacoblang/Local Sites/slack-dusty-stick/slack-app/schema.sql",
+		"/Users/jacoblang/Local Sites/slack-dusty-stick/slack-app/src/db.js",
+		"/Users/jacoblang/Local Sites/slack-dusty-stick/slack-app/src/format.js",
+		"/Users/jacoblang/Local Sites/slack-dusty-stick/index.html",
+		"/Users/jacoblang/Local Sites/slack-dusty-stick/slack-app/test/reactions.test.js",
 		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/inc/custom-endpoints.php",
 		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/functions.php",
 		"/Users/jacoblang/Local Sites/amwa-2025-site/app/public/wp-content/themes/AMWA-Theme/inc/jetpack.php",
@@ -674,22 +696,11 @@
 		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/event/frontend.js",
 		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/progress-block/scroll-v2.js",
 		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/hero/edit.js",
-		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/front-end.js",
-		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/components/Anchor.js",
-		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks.php",
-		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/components/Header.js",
-		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/promo/edit.js",
-		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/components/ColorSelector.js",
-		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/images/save.js",
-		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/images/index.js",
-		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/images/edit.js",
-		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/blocks/index.js",
-		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/scss/style.scss",
-		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/scss/editor.scss"
+		"/Users/jacoblang/Local Sites/amwa-2025-clone/app/public/wp-content/themes/AMWA-Theme/support/front-end.js"
 	],
 	"find":
 	{
-		"height": 24.0
+		"height": 38.0
 	},
 	"find_in_files":
 	{
@@ -704,6 +715,41 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"deploy",
+			"build",
+			"highscore",
+			"redeggmarketing",
+			"shameREsponse",
+			"getLeaderboard",
+			"function getLeaderboard",
+			"getLeaderboard",
+			"shameResponse",
+			"shame",
+			"leaderboard",
+			"shame",
+			"deploy",
+			"push",
+			"shame",
+			"SHAME_GIF_URL",
+			"randomShameGif",
+			"SHAME_GIF_URL",
+			"shameresponse",
+			"shame",
+			"shameResponse",
+			"leaderboardBlocks",
+			"shameResponse",
+			"shame",
+			"leaderboardBlocks",
+			"getLeaderboard",
+			"leaderboardResponse",
+			"recentResponse",
+			"shameResponse",
+			"shame",
+			"giphy",
+			"gif",
+			"getLeaderboard",
+			"recentResponse",
+			"slash",
 			":dusty_stick"
 		],
 		"highlight": true,
@@ -726,6 +772,36 @@
 		{
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "slack-app/wrangler.toml",
+					"selected": true,
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 2010,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/TOML/TOML.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"stack_multiselect": false,
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -762,7 +838,10 @@
 	"menu_visible": true,
 	"output.find_results":
 	{
-		"height": 0.0
+		"height": 0.0,
+		"history":
+		[
+		]
 	},
 	"pinned_build_system": "",
 	"project": "slack-dusty-stick.sublime-project",
@@ -1183,15 +1262,15 @@
 	"select_project":
 	{
 		"height": 502.0,
-		"last_filter": "",
+		"last_filter": "re",
 		"selected_items":
 		[
 			[
-				"",
+				"re",
 				"~/Local Sites/red-egg-update-2023/red-egg-2025.sublime-project"
 			],
 			[
-				"re",
+				"",
 				"~/Local Sites/red-egg-update-2023/red-egg-2025.sublime-project"
 			],
 			[
